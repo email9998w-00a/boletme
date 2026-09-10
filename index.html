@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Página segura para emissão de cobrança por boleto bancário." />
+  <title>Pagamento por boleto | Sua Empresa</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #667085;
+      --line: #e4e7ec;
+      --surface: #ffffff;
+      --bg: #f5f7fb;
+      --brand: #1456b8;
+      --brand-dark: #0e3e86;
+      --brand-soft: #eaf2ff;
+      --success: #067647;
+      --success-soft: #ecfdf3;
+      --danger: #b42318;
+      --danger-soft: #fef3f2;
+      --shadow: 0 18px 50px rgba(16, 24, 40, .10);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: linear-gradient(180deg, #eef4ff 0, var(--bg) 360px);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+    .site-header { background: rgba(255,255,255,.92); border-bottom: 1px solid var(--line); }
+    .header-inner, main, .site-footer { width: min(1080px, calc(100% - 32px)); margin: 0 auto; }
+    .header-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 750; letter-spacing: -.02em; }
+    .brand-mark { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 11px; color: white; background: var(--brand); font-weight: 800; }
+    .secure { color: var(--success); font-size: .84rem; font-weight: 650; white-space: nowrap; }
+    main { padding: 52px 0 70px; }
+    .hero { max-width: 720px; margin-bottom: 26px; }
+    .eyebrow { color: var(--brand); text-transform: uppercase; letter-spacing: .11em; font-size: .73rem; font-weight: 800; }
+    h1 { margin: 10px 0 12px; font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.05; letter-spacing: -.05em; }
+    .hero p { margin: 0; color: var(--muted); font-size: 1.06rem; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(280px, .8fr); gap: 24px; align-items: start; }
+    .card { background: var(--surface); border: 1px solid rgba(228,231,236,.9); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .main-card { padding: clamp(22px, 4vw, 38px); }
+    .side-card { padding: 26px; }
+    .section-title { display: flex; align-items: center; gap: 10px; margin: 0 0 18px; font-size: 1.06rem; }
+    .section-title span { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--brand-soft); color: var(--brand); font-size: .85rem; font-weight: 800; }
+    .customer-box { padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: #fbfcfe; margin-bottom: 24px; }
+    .customer-box small, .label { display: block; color: var(--muted); font-size: .79rem; font-weight: 650; }
+    .customer-name { margin-top: 3px; font-weight: 700; }
+    .amount { display: flex; align-items: end; justify-content: space-between; padding: 20px; background: var(--brand-soft); border-radius: 14px; margin: 16px 0 22px; }
+    .amount strong { color: var(--brand-dark); font-size: 2rem; letter-spacing: -.04em; }
+    .amount small { color: var(--brand-dark); font-weight: 650; }
+    .status { display: none; align-items: flex-start; gap: 12px; padding: 15px 16px; border-radius: 12px; margin: 18px 0; font-size: .92rem; }
+    .status.visible { display: flex; }
+    .status.loading { background: var(--brand-soft); color: var(--brand-dark); }
+    .status.success { background: var(--success-soft); color: var(--success); }
+    .status.error { background: var(--danger-soft); color: var(--danger); }
+    .spinner { flex: 0 0 auto; width: 18px; height: 18px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-screen { position: fixed; inset: 0; z-index: 10; display: grid; place-items: center; padding: 24px; background: rgba(245,247,251,.96); backdrop-filter: blur(7px); }
+    .loading-screen.hidden { display: none; }
+    .loading-panel { width: min(430px, 100%); padding: 34px 28px; text-align: center; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .loading-spinner { width: 52px; height: 52px; margin: 0 auto 22px; border: 4px solid var(--brand-soft); border-top-color: var(--brand); border-radius: 50%; animation: spin .85s linear infinite; }
+    .loading-panel h2 { margin: 0 0 8px; font-size: 1.25rem; }
+    .loading-panel p { margin: 0; color: var(--muted); font-size: .92rem; }
+    .loading-dots { display: inline-block; width: 1.25em; text-align: left; }
+    .boleto-result { display: none; margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--line); }
+    .boleto-result.visible { display: block; }
+    .barcode { display: block; width: 100%; padding: 15px; border: 1px solid var(--line); border-radius: 10px; background: #fafafa; color: var(--ink); font: 600 .86rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    button, .button { border: 0; border-radius: 10px; padding: 12px 16px; font: inherit; font-weight: 750; cursor: pointer; text-decoration: none; display: inline-flex; justify-content: center; align-items: center; gap: 8px; }
+    .primary { color: white; background: var(--brand); }
+    .primary:hover { background: var(--brand-dark); }
+    .secondary { color: var(--brand-dark); background: var(--brand-soft); }
+    .button[aria-disabled="true"], button:disabled { opacity: .55; cursor: not-allowed; }
+    .list { display: grid; gap: 18px; margin: 0; padding: 0; list-style: none; }
+    .list li { display: grid; grid-template-columns: 30px 1fr; gap: 10px; align-items: start; }
+    .list i { width: 27px; height: 27px; border-radius: 50%; display: grid; place-items: center; background: var(--success-soft); color: var(--success); font-style: normal; font-size: .8rem; font-weight: 800; }
+    .list strong { display: block; font-size: .91rem; }
+    .list p { margin: 3px 0 0; color: var(--muted); font-size: .84rem; }
+    .note { margin-top: 24px; padding: 14px; border-left: 3px solid var(--brand); background: #f8fbff; color: var(--muted); font-size: .79rem; }
+    .site-footer { padding-bottom: 34px; color: var(--muted); font-size: .78rem; text-align: center; }
+    @media (max-width: 780px) { .layout { grid-template-columns: 1fr; } .side-card { order: 2; } main { padding-top: 34px; } }
+    @media (max-width: 480px) { .secure { display: none; } .amount { display: block; } .amount small { display: block; margin-bottom: 3px; } }
+  </style>
+</head>
+<body>
+  <div id="loadingScreen" class="loading-screen" role="status" aria-live="polite" aria-label="Gerando boleto">
+    <div class="loading-panel">
+      <div class="loading-spinner" aria-hidden="true"></div>
+      <h2>Gerando seu boleto<span class="loading-dots" aria-hidden="true">...</span></h2>
+      <p>Estamos registrando a cobrança com segurança. Não feche esta página.</p>
+    </div>
+  </div>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand"><div class="brand-mark" aria-hidden="true">$</div><span>Sua Empresa</span></div>
+      <div class="secure">&#10003; Ambiente protegido</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">Cobrança de serviço</div>
+      <h1>Seu boleto está quase pronto</h1>
+      <p>Estamos preparando uma cobrança no valor de <strong>R$ 59,90</strong>. Confira os dados e aguarde a emissão automática.</p>
+    </section>
+
+    <div class="layout">
+      <section class="card main-card" aria-labelledby="payment-title">
+        <h2 id="payment-title" class="section-title"><span>1</span> Dados da cobrança</h2>
+        <div class="customer-box">
+          <small>Pagador</small>
+          <div id="customerName" class="customer-name">Carregando dados...</div>
+          <small id="customerContact" style="margin-top:5px"></small>
+        </div>
+
+        <div class="amount">
+          <small>Valor total</small>
+          <strong>R$ 59,90</strong>
+        </div>
+
+        <div id="status" class="status loading visible" role="status" aria-live="polite">
+          <span class="spinner" aria-hidden="true"></span><span id="statusText">Gerando seu boleto...</span>
+        </div>
+
+        <div id="boletoResult" class="boleto-result" aria-labelledby="boleto-title">
+          <h2 id="boleto-title" class="section-title"><span>2</span> Boleto emitido</h2>
+          <p class="label">Linha digitável / código de barras</p>
+          <code id="barcode" class="barcode"></code>
+          <div class="actions">
+            <button id="copyButton" class="secondary" type="button">Copiar código</button>
+            <a id="pdfLink" class="button primary" target="_blank" rel="noopener noreferrer" href="#" aria-disabled="true">Abrir boleto PDF</a>
+          </div>
+          <p class="note">Confira o beneficiário e o valor antes de pagar. O vencimento e as instruções oficiais estarão no documento emitido.</p>
+        </div>
+      </section>
+
+      <aside class="card side-card">
+        <h2 class="section-title"><span>i</span> Como pagar</h2>
+        <ul class="list">
+          <li><i>1</i><div><strong>Abra o boleto</strong><p>Use o botão para visualizar ou baixar o documento.</p></div></li>
+          <li><i>2</i><div><strong>Confira os dados</strong><p>Verifique beneficiário, valor e vencimento.</p></div></li>
+          <li><i>3</i><div><strong>Pague no seu banco</strong><p>Use o app, internet banking, caixa eletrônico ou agência.</p></div></li>
+        </ul>
+        <div class="note">A emissão é feita por um sistema de pagamentos integrado. Nunca informe sua senha bancária nesta página.</div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer">Atendimento: contato@suaempresa.com.br · Consulte a política de privacidade da empresa.</footer>
+
+  <script>
+    (() => {
+      'use strict';
+
+      // No Render, mantenha a URL do backend em window.BOLETO_API_URL ou use /api/gerar-boleto
+      // quando frontend e backend estiverem no mesmo serviço.
+      const API_URL = window.BOLETO_API_URL || '/api/gerar-boleto';
+      const AMOUNT_CENTS = 5990;
+      const params = new URLSearchParams(window.location.search);
+      const $ = (id) => document.getElementById(id);
+
+      const data = {
+        name: params.get('fullName') || params.get('name') || '',
+        email: params.get('email') || '',
+        phone: params.get('phone') || '',
+        cpf: params.get('cpf') || '',
+        rg: params.get('rg') || '',
+        zipCode: params.get('zipCode') || '',
+        address: params.get('address') || '',
+        number: params.get('number') || '',
+        complement: params.get('complement') || '',
+        neighborhood: params.get('neighborhood') || '',
+        city: params.get('city') || '',
+        state: params.get('state') || ''
+      };
+
+      function setStatus(type, message) {
+        const box = $('status');
+        box.className = `status visible ${type}`;
+        $('statusText').textContent = message;
+        const spinner = box.querySelector('.spinner');
+        if (spinner) spinner.style.display = type === 'loading' ? 'block' : 'none';
+        if (type !== 'loading') $('loadingScreen').classList.add('hidden');
+      }
+
+      function safeName(name) {
+        return name ? name.replace(/[<>]/g, '').slice(0, 120) : 'Cliente';
+      }
+
+      function renderCustomer() {
+        $('customerName').textContent = safeName(data.name);
+        $('customerContact').textContent = [data.email, data.phone].filter(Boolean).join(' · ');
+      }
+
+      function renderBoleto(boleto) {
+        const code = boleto.line || boleto.barcode || boleto.digitable_line || '';
+        const pdf = boleto.pdf_url || boleto.url || '';
+        if (!code && !pdf) throw new Error('A resposta não trouxe os dados do boleto.');
+        $('barcode').textContent = code || 'Código disponível no PDF';
+        if (pdf) {
+          $('pdfLink').href = pdf;
+          $('pdfLink').setAttribute('aria-disabled', 'false');
+        } else {
+          $('pdfLink').style.display = 'none';
+        }
+        $('boletoResult').classList.add('visible');
+        setStatus('success', 'Boleto gerado com sucesso.');
+      }
+
+      async function generateBoleto() {
+        // O backend deve validar novamente todos os campos e fixar o valor em R$ 59,90.
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ amount: AMOUNT_CENTS, currency: 'BRL', customer: data })
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(result.message || 'Não foi possível emitir o boleto.');
+        renderBoleto(result.boleto || result);
+      }
+
+      $('copyButton').addEventListener('click', async () => {
+        const code = $('barcode').textContent;
+        if (!code || code === 'Código disponível no PDF') return;
+        try {
+          await navigator.clipboard.writeText(code);
+          $('copyButton').textContent = 'Código copiado';
+          setTimeout(() => $('copyButton').textContent = 'Copiar código', 2200);
+        } catch (_) { setStatus('error', 'Não foi possível copiar automaticamente. Selecione o código manualmente.'); }
+      });
+
+      renderCustomer();
+      setStatus('loading', 'Gerando seu boleto...');
+      generateBoleto().catch((error) => {
+        console.error(error);
+        setStatus('error', error.message || 'Não foi possível gerar o boleto agora. Atualize a página ou tente novamente.');
+      });
+    })();
+  </script>
+</body>
+</html>
