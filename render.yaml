@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: boleto-pagarme
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: PAGARME_SECRET_KEY
+        sync: false
