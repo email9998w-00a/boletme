@@ -3,209 +3,100 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Página segura para emissão de cobrança por boleto bancário." />
-  <title>Pagamento por boleto | Sua Empresa</title>
+  <meta name="description" content="Acesse seu boleto com segurança e pague pelo aplicativo do seu banco." />
+  <title>Seu boleto está pronto | Sua Empresa</title>
   <style>
-    :root {
-      --ink: #172033;
-      --muted: #667085;
-      --line: #e4e7ec;
-      --surface: #ffffff;
-      --bg: #f5f7fb;
-      --brand: #1456b8;
-      --brand-dark: #0e3e86;
-      --brand-soft: #eaf2ff;
-      --success: #067647;
-      --success-soft: #ecfdf3;
-      --danger: #b42318;
-      --danger-soft: #fef3f2;
-      --shadow: 0 18px 50px rgba(16, 24, 40, .10);
-      --radius: 18px;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      color: var(--ink);
-      background: linear-gradient(180deg, #eef4ff 0, var(--bg) 360px);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.5;
-    }
-    .site-header { background: rgba(255,255,255,.92); border-bottom: 1px solid var(--line); }
-    .header-inner, main, .site-footer { width: min(1080px, calc(100% - 32px)); margin: 0 auto; }
-    .header-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-    .brand { display: flex; align-items: center; gap: 12px; font-weight: 750; letter-spacing: -.02em; }
-    .brand-mark { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 11px; color: white; background: var(--brand); font-weight: 800; }
-    .secure { color: var(--success); font-size: .84rem; font-weight: 650; white-space: nowrap; }
-    main { padding: 52px 0 70px; }
-    .hero { max-width: 720px; margin-bottom: 18px; }
-    .eyebrow { color: var(--brand); text-transform: uppercase; letter-spacing: .11em; font-size: .73rem; font-weight: 800; }
-    h1 { margin: 10px 0 12px; font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.05; letter-spacing: -.05em; }
-    .hero p { margin: 0; color: var(--muted); font-size: 1.06rem; }
-    .layout { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(280px, .8fr); gap: 24px; align-items: start; }
-    .card { background: var(--surface); border: 1px solid rgba(228,231,236,.9); border-radius: var(--radius); box-shadow: var(--shadow); }
-    .main-card { padding: clamp(18px, 3vw, 30px); }
-    .side-card { padding: 26px; }
-    .section-title { display: flex; align-items: center; gap: 10px; margin: 0 0 18px; font-size: 1.06rem; }
-    .section-title span { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--brand-soft); color: var(--brand); font-size: .85rem; font-weight: 800; }
-    .customer-box { padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: #fbfcfe; margin-bottom: 24px; }
-    .customer-box small, .label { display: block; color: var(--muted); font-size: .79rem; font-weight: 650; }
-    .customer-name { margin-top: 3px; font-weight: 700; }
-    .amount { display: flex; align-items: end; justify-content: space-between; padding: 20px; background: var(--brand-soft); border-radius: 14px; margin: 16px 0 22px; }
-    .amount strong { color: var(--brand-dark); font-size: 2rem; letter-spacing: -.04em; }
-    .amount small { color: var(--brand-dark); font-weight: 650; }
-    .status { display: none; align-items: flex-start; gap: 12px; padding: 15px 16px; border-radius: 12px; margin: 18px 0; font-size: .92rem; }
-    .status.visible { display: flex; }
-    .status.loading { background: var(--brand-soft); color: var(--brand-dark); }
-    .status.success { background: var(--success-soft); color: var(--success); }
-    .status.error { background: var(--danger-soft); color: var(--danger); }
-    .spinner { flex: 0 0 auto; width: 18px; height: 18px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .8s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .loading-screen { position: fixed; inset: 0; z-index: 10; display: grid; place-items: center; padding: 24px; background: rgba(245,247,251,.96); backdrop-filter: blur(7px); }
-    .loading-screen.hidden { display: none; }
-    .loading-panel { width: min(430px, 100%); padding: 34px 28px; text-align: center; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
-    .loading-spinner { width: 52px; height: 52px; margin: 0 auto 22px; border: 4px solid var(--brand-soft); border-top-color: var(--brand); border-radius: 50%; animation: spin .85s linear infinite; }
-    .loading-panel h2 { margin: 0 0 8px; font-size: 1.25rem; }
-    .loading-panel p { margin: 0; color: var(--muted); font-size: .92rem; }
-    .loading-dots { display: inline-block; width: 1.25em; text-align: left; }
-    .trust-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
-    .trust-item { display: inline-flex; align-items: center; gap: 7px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: rgba(255,255,255,.72); font-size: .78rem; font-weight: 700; }
-    .trust-item b { color: var(--success); font-size: .95rem; }
-    .summary { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; margin-bottom: 20px; }
-    .summary-value { margin-top: 3px; font-size: .92rem; font-weight: 750; }
-    .summary-value.amount-value { color: var(--brand-dark); font-size: 1.08rem; }
-    .help-box { margin-top: 22px; padding: 16px; border-radius: 12px; background: #fbfcfe; border: 1px solid var(--line); }
-    .help-box strong { display: block; margin-bottom: 4px; font-size: .88rem; }
-    .help-box p { margin: 0; color: var(--muted); font-size: .82rem; }
-    .retry { margin-top: 12px; color: var(--danger); background: #fff; border: 1px solid #fecdca; }
-    .retry:hover { background: var(--danger-soft); }
-    .payment-tip { display: flex; gap: 10px; align-items: flex-start; margin-top: 20px; padding: 14px; border-radius: 12px; color: var(--brand-dark); background: var(--brand-soft); font-size: .82rem; }
-    .action-panel { margin-top: 20px; padding: 18px; border: 1px solid #b8d3ff; border-radius: 14px; background: linear-gradient(135deg, #f5f9ff, #eaf2ff); }
-    .action-panel strong { display: block; color: var(--brand-dark); font-size: .98rem; }
-    .action-panel p { margin: 5px 0 0; color: var(--muted); font-size: .83rem; }
-    .primary-action { width: 100%; min-height: 50px; font-size: 1rem; box-shadow: 0 8px 18px rgba(20,86,184,.18); }
-    .primary-action:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #98c1ff; outline-offset: 3px; }
-    .microcopy { margin: 9px 0 0; color: var(--muted); font-size: .76rem; text-align: center; }
-    .due-date { margin-top: 12px; display: inline-flex; padding: 7px 10px; border-radius: 8px; background: white; color: var(--brand-dark); font-size: .82rem; font-weight: 800; }
-    .payment-steps { display: grid; gap: 10px; margin: 20px 0 0; padding: 0; list-style: none; }
-    .payment-steps li { display: flex; gap: 9px; align-items: center; color: var(--muted); font-size: .84rem; }
-    .payment-steps b { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; color: white; background: var(--success); font-size: .7rem; }
-    .reminder { margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(20,86,184,.18); color: var(--muted); font-size: .75rem; }
-    .boleto-result { display: none; margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--line); }
-    .boleto-result.visible { display: block; scroll-margin-top: 18px; }
-    .barcode { display: block; width: 100%; padding: 15px; border: 1px solid var(--line); border-radius: 10px; background: #fafafa; color: var(--ink); font: 600 .86rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }
-    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
-    button, .button { border: 0; border-radius: 10px; padding: 12px 16px; font: inherit; font-weight: 750; cursor: pointer; text-decoration: none; display: inline-flex; justify-content: center; align-items: center; gap: 8px; }
-    .primary { color: white; background: var(--brand); }
-    .primary:hover { background: var(--brand-dark); }
-    .secondary { color: var(--brand-dark); background: var(--brand-soft); }
-    .button[aria-disabled="true"], button:disabled { opacity: .55; cursor: not-allowed; }
-    .list { display: grid; gap: 18px; margin: 0; padding: 0; list-style: none; }
-    .list li { display: grid; grid-template-columns: 30px 1fr; gap: 10px; align-items: start; }
-    .list i { width: 27px; height: 27px; border-radius: 50%; display: grid; place-items: center; background: var(--success-soft); color: var(--success); font-style: normal; font-size: .8rem; font-weight: 800; }
-    .list strong { display: block; font-size: .91rem; }
-    .list p { margin: 3px 0 0; color: var(--muted); font-size: .84rem; }
-    .note { margin-top: 24px; padding: 14px; border-left: 3px solid var(--brand); background: #f8fbff; color: var(--muted); font-size: .79rem; }
-    .site-footer { padding-bottom: 34px; color: var(--muted); font-size: .78rem; text-align: center; }
-    @media (max-width: 780px) { .layout { grid-template-columns: 1fr; } .side-card { order: 2; } main { padding-top: 24px; } .hero { margin-bottom: 14px; } .main-card { padding: 18px; } .summary { margin-bottom: 12px; } .amount { margin: 12px 0 14px; } }
-    @media (max-width: 480px) { .secure { display: none; } .amount { display: block; } .amount small { display: block; margin-bottom: 3px; } }
+    :root { --ink:#172033; --muted:#667085; --line:#e4e7ec; --surface:#fff; --bg:#f5f7fb; --brand:#1456b8; --brand-dark:#0e3e86; --brand-soft:#eaf2ff; --success:#067647; --success-soft:#ecfdf3; --danger:#b42318; --danger-soft:#fef3f2; --shadow:0 18px 50px rgba(16,24,40,.10); --radius:18px; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:linear-gradient(180deg,#eef4ff 0,var(--bg) 330px); font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; line-height:1.5; }
+    .site-header { background:rgba(255,255,255,.94); border-bottom:1px solid var(--line); }
+    .header-inner, main, .site-footer { width:min(700px,calc(100% - 32px)); margin:0 auto; }
+    .header-inner { min-height:68px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand { display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:-.02em; }
+    .brand-mark { width:34px; height:34px; display:grid; place-items:center; border-radius:10px; color:#fff; background:var(--brand); font-weight:800; }
+    .secure { color:var(--success); font-size:.82rem; font-weight:700; white-space:nowrap; }
+    main { padding:38px 0 58px; }
+    .hero { text-align:center; margin-bottom:20px; }
+    .eyebrow { color:var(--brand); text-transform:uppercase; letter-spacing:.1em; font-size:.7rem; font-weight:800; }
+    h1 { margin:8px 0 8px; font-size:clamp(1.85rem,5vw,2.55rem); line-height:1.08; letter-spacing:-.045em; }
+    .hero p { max-width:520px; margin:0 auto; color:var(--muted); font-size:.98rem; }
+    .card { background:var(--surface); border:1px solid rgba(228,231,236,.92); border-radius:var(--radius); box-shadow:var(--shadow); }
+    .main-card { padding:clamp(18px,4vw,30px); }
+    .customer { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#fbfcfe; }
+    .customer small, .label { display:block; color:var(--muted); font-size:.76rem; font-weight:650; }
+    .customer-name { margin-top:2px; font-weight:750; }
+    .secure-mini { color:var(--success); font-size:.76rem; font-weight:750; white-space:nowrap; }
+    .summary { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0 18px; padding:16px; border:1px solid var(--line); border-radius:12px; }
+    .summary-value { margin-top:3px; font-size:.92rem; font-weight:750; }
+    .summary-value.amount-value { color:var(--brand-dark); font-size:1.2rem; }
+    .status { display:none; align-items:center; gap:10px; padding:13px 14px; border-radius:12px; margin:0 0 16px; font-size:.88rem; }
+    .status.visible { display:flex; }
+    .status.loading { background:var(--brand-soft); color:var(--brand-dark); }
+    .status.success { background:var(--success-soft); color:var(--success); }
+    .status.error { background:var(--danger-soft); color:var(--danger); align-items:flex-start; }
+    .spinner { flex:0 0 auto; width:17px; height:17px; border:2px solid currentColor; border-right-color:transparent; border-radius:50%; animation:spin .8s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .loading-screen { position:fixed; inset:0; z-index:10; display:grid; place-items:center; padding:24px; background:rgba(245,247,251,.96); backdrop-filter:blur(7px); }
+    .loading-screen.hidden { display:none; }
+    .loading-panel { width:min(400px,100%); padding:30px 24px; text-align:center; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
+    .loading-spinner { width:44px; height:44px; margin:0 auto 18px; border:4px solid var(--brand-soft); border-top-color:var(--brand); border-radius:50%; animation:spin .85s linear infinite; }
+    .loading-panel h2 { margin:0 0 6px; font-size:1.16rem; }
+    .loading-panel p { margin:0; color:var(--muted); font-size:.88rem; }
+    .boleto-result { display:none; }
+    .boleto-result.visible { display:block; scroll-margin-top:16px; }
+    .ready { margin:0 0 16px; color:var(--success); font-size:1.03rem; font-weight:800; }
+    .due-date { display:inline-flex; margin:0 0 16px; padding:6px 9px; border-radius:8px; background:var(--brand-soft); color:var(--brand-dark); font-size:.8rem; font-weight:800; }
+    .primary-action { width:100%; min-height:56px; color:#fff; background:var(--brand); box-shadow:0 8px 18px rgba(20,86,184,.2); font-size:1.04rem; }
+    .primary-action:hover { background:var(--brand-dark); }
+    button, .button { border:0; border-radius:10px; padding:12px 16px; font:inherit; font-weight:750; cursor:pointer; text-decoration:none; display:inline-flex; justify-content:center; align-items:center; gap:8px; }
+    .secondary { color:var(--brand-dark); background:var(--brand-soft); }
+    .primary-action[aria-disabled="true"], button:disabled { opacity:.55; cursor:not-allowed; pointer-events:none; }
+    .microcopy { margin:9px 0 0; color:var(--muted); font-size:.75rem; text-align:center; }
+    .fallback { margin-top:20px; padding-top:18px; border-top:1px solid var(--line); }
+    .fallback summary { cursor:pointer; color:var(--muted); font-size:.82rem; font-weight:700; }
+    .barcode { display:block; width:100%; margin-top:12px; padding:13px; border:1px solid var(--line); border-radius:10px; background:#fafafa; color:var(--ink); font:600 .82rem/1.5 ui-monospace,SFMono-Regular,Menlo,monospace; word-break:break-all; }
+    .actions { display:flex; gap:10px; margin-top:10px; }
+    .actions button { flex:1; }
+    .note { margin:18px 0 0; padding:12px 14px; border-left:3px solid var(--brand); background:#f8fbff; color:var(--muted); font-size:.78rem; }
+    .help { margin-top:18px; text-align:center; color:var(--muted); font-size:.78rem; }
+    .help button { margin-top:8px; padding:7px 10px; color:var(--brand-dark); background:transparent; font-size:.78rem; }
+    .site-footer { padding-bottom:28px; color:var(--muted); font-size:.75rem; text-align:center; }
+    button:focus-visible, a:focus-visible, summary:focus-visible { outline:3px solid #98c1ff; outline-offset:3px; }
+    @media (max-width:480px) { .secure { display:none; } .customer { align-items:flex-start; flex-direction:column; } .secure-mini { align-self:flex-start; } }
   </style>
 </head>
 <body>
-  <div id="loadingScreen" class="loading-screen" role="status" aria-live="polite" aria-label="Gerando boleto">
-    <div class="loading-panel">
-      <div class="loading-spinner" aria-hidden="true"></div>
-      <h2>Gerando seu boleto<span class="loading-dots" aria-hidden="true">...</span></h2>
-      <p>Estamos registrando a cobrança com segurança. Você poderá abrir o boleto assim que ele estiver disponível.</p>
-    </div>
+  <div id="loadingScreen" class="loading-screen" role="status" aria-live="polite" aria-label="Preparando boleto">
+    <div class="loading-panel"><div class="loading-spinner" aria-hidden="true"></div><h2>Preparando seu boleto</h2><p>Isso leva apenas alguns segundos.</p></div>
   </div>
-  <header class="site-header">
-    <div class="header-inner">
-      <div class="brand"><div class="brand-mark" aria-hidden="true">$</div><span>Sua Empresa</span></div>
-      <div class="secure">&#10003; Ambiente protegido</div>
-    </div>
-  </header>
+
+  <header class="site-header"><div class="header-inner"><div class="brand"><div class="brand-mark" aria-hidden="true">$</div><span>Sua Empresa</span></div><div class="secure">✓ Ambiente protegido</div></div></header>
 
   <main>
-    <section class="hero">
-      <div class="eyebrow">Cobrança de serviço</div>
-      <h1>Emita seu boleto e pague com segurança</h1>
-      <p>Seu documento de pagamento está sendo preparado no valor de <strong>R$ 59,90</strong>. Confira os dados e, quando aparecer, abra o boleto para pagar pelo seu banco.</p>
-      <div class="trust-row" aria-label="Informações de segurança">
-        <div class="trust-item"><b>✓</b> Emissão segura</div>
-        <div class="trust-item"><b>✓</b> Valor transparente</div>
-        <div class="trust-item"><b>✓</b> Sem dados bancários</div>
+    <section class="hero"><div class="eyebrow">Pagamento por boleto</div><h1>Seu boleto está quase pronto</h1><p>Abra o documento, confira os dados e pague pelo aplicativo do seu banco.</p></section>
+
+    <section class="card main-card" aria-labelledby="payment-title">
+      <div class="customer"><div><small>Pagador</small><div id="customerName" class="customer-name">Carregando dados...</div><small id="customerContact"></small></div><div class="secure-mini">✓ Emissão segura</div></div>
+      <div class="summary" aria-label="Resumo da cobrança"><div><span class="label">Descrição</span><div class="summary-value">Cobrança de serviço</div></div><div><span class="label">Valor total</span><div class="summary-value amount-value">R$ 59,90</div></div></div>
+      <div id="status" class="status loading visible" role="status" aria-live="polite"><span class="spinner" aria-hidden="true"></span><span id="statusText">Gerando boleto...</span></div>
+
+      <div id="boletoResult" class="boleto-result" aria-labelledby="payment-title">
+        <p class="ready">Boleto emitido com sucesso</p>
+        <div id="dueDate" class="due-date" hidden></div>
+        <a id="pdfLink" class="button primary-action" target="_blank" rel="noopener noreferrer" href="#" aria-disabled="true">Abrir boleto para pagar</a>
+        <p class="microcopy">Você será direcionado ao documento. Confira beneficiário, valor e vencimento antes de confirmar o pagamento.</p>
+        <details class="fallback"><summary>Prefere pagar com código de barras?</summary><code id="barcode" class="barcode"></code><div class="actions"><button id="copyButton" class="secondary" type="button">Copiar código</button></div></details>
+        <div class="note">O pagamento é concluído no aplicativo ou internet banking do seu banco. Nunca informe sua senha nesta página.</div>
       </div>
+      <div id="help" class="help" hidden>Não conseguiu abrir? <button id="retryButton" type="button">Tentar novamente</button></div>
     </section>
-
-    <div class="layout">
-      <section class="card main-card" aria-labelledby="payment-title">
-        <h2 id="payment-title" class="section-title"><span>1</span> Dados da cobrança</h2>
-        <div class="customer-box">
-          <small>Pagador</small>
-          <div id="customerName" class="customer-name">Carregando dados...</div>
-          <small id="customerContact" style="margin-top:5px"></small>
-        </div>
-
-        <div class="summary" aria-label="Resumo da cobrança">
-          <div><span class="label">Descrição</span><div class="summary-value">Cobrança de serviço</div></div>
-          <div><span class="label">Valor total</span><div class="summary-value amount-value">R$ 59,90</div></div>
-        </div>
-
-        <div class="amount">
-          <small>Valor total</small>
-          <strong>R$ 59,90</strong>
-        </div>
-
-        <div id="status" class="status loading visible" role="status" aria-live="polite">
-          <span class="spinner" aria-hidden="true"></span><span id="statusText">Gerando seu boleto...</span>
-        </div>
-
-        <div id="boletoResult" class="boleto-result" aria-labelledby="boleto-title">
-          <h2 id="boleto-title" class="section-title"><span>2</span> Boleto emitido</h2>
-          <p class="label">Linha digitável / código de barras</p>
-          <code id="barcode" class="barcode"></code>
-          <div class="actions">
-            <button id="copyButton" class="secondary" type="button">Copiar código</button>
-            <a id="pdfLink" class="button primary primary-action" target="_blank" rel="noopener noreferrer" href="#" aria-disabled="true">Abrir boleto e pagar</a>
-          </div>
-          <p class="microcopy">Confira beneficiário, valor e vencimento antes de confirmar no app do seu banco.</p>
-          <div class="action-panel">
-            <strong>Próximo passo: abra o boleto agora</strong>
-            <p>O pagamento é concluído no seu banco. Salve o PDF ou copie o código para finalizar enquanto os dados estão à mão.</p>
-            <div id="dueDate" class="due-date" hidden></div>
-            <ul class="payment-steps">
-              <li><b>1</b> Abra ou baixe o boleto</li>
-              <li><b>2</b> Confira o beneficiário e o valor</li>
-              <li><b>3</b> Pague pelo seu banco antes do vencimento</li>
-            </ul>
-            <div class="reminder">O pagamento não é automático. Se precisar de ajuda, procure o atendimento oficial da empresa.</div>
-          </div>
-          <div class="payment-tip"><span aria-hidden="true">ℹ</span><span>Você pode pagar pelo aplicativo do seu banco, internet banking, caixa eletrônico ou agência.</span></div>
-          <p class="note">Confira o beneficiário e o valor antes de pagar. O vencimento e as instruções oficiais estarão no documento emitido.</p>
-        </div>
-      </section>
-
-      <aside class="card side-card">
-        <h2 class="section-title"><span>i</span> Como pagar</h2>
-        <ul class="list">
-          <li><i>1</i><div><strong>Abra o boleto</strong><p>Use o botão para visualizar ou baixar o documento.</p></div></li>
-          <li><i>2</i><div><strong>Confira os dados</strong><p>Verifique beneficiário, valor e vencimento.</p></div></li>
-          <li><i>3</i><div><strong>Pague no seu banco</strong><p>Use o app, internet banking, caixa eletrônico ou agência.</p></div></li>
-        </ul>
-        <div class="note">A emissão é feita por um sistema de pagamentos integrado. Nunca informe sua senha bancária nesta página.</div>
-        <div class="help-box"><strong>Precisa de ajuda?</strong><p>Se o boleto não aparecer, aguarde alguns segundos e tente consultar novamente. O sistema reaproveita o mesmo boleto para evitar cobranças duplicadas.</p><button id="retryButton" class="retry" type="button">Consultar boleto novamente</button></div>
-      </aside>
-    </div>
   </main>
 
-  <footer class="site-footer">Atendimento: contato@suaempresa.com.br · Consulte a política de privacidade da empresa.</footer>
+  <footer class="site-footer">Atendimento: contato@suaempresa.com.br</footer>
 
   <script>
     (() => {
       'use strict';
-
-      // No Render, mantenha a URL do backend em window.BOLETO_API_URL ou use /api/gerar-boleto
-      // quando frontend e backend estiverem no mesmo serviço.
       const API_URL = window.BOLETO_API_URL || '/api/gerar-boleto';
       const AMOUNT_CENTS = 5990;
       const CACHE_PREFIX = 'boleto_pagarme_v1_';
@@ -213,159 +104,37 @@
       let requestInFlight = false;
       const params = new URLSearchParams(window.location.search);
       const $ = (id) => document.getElementById(id);
-
-      const data = {
-        name: params.get('fullName') || params.get('name') || '',
-        email: params.get('email') || '',
-        phone: params.get('phone') || '',
-        cpf: params.get('cpf') || '',
-        rg: params.get('rg') || '',
-        zipCode: params.get('zipCode') || '',
-        address: params.get('address') || '',
-        number: params.get('number') || '',
-        complement: params.get('complement') || '',
-        neighborhood: params.get('neighborhood') || '',
-        city: params.get('city') || '',
-        state: params.get('state') || ''
-      };
+      const data = { name:params.get('fullName')||params.get('name')||'', email:params.get('email')||'', phone:params.get('phone')||'', cpf:params.get('cpf')||'', rg:params.get('rg')||'', zipCode:params.get('zipCode')||'', address:params.get('address')||'', number:params.get('number')||'', complement:params.get('complement')||'', neighborhood:params.get('neighborhood')||'', city:params.get('city')||'', state:params.get('state')||'' };
 
       function setStatus(type, message) {
-        const box = $('status');
-        box.className = `status visible ${type}`;
-        $('statusText').textContent = message;
-        const spinner = box.querySelector('.spinner');
-        if (spinner) spinner.style.display = type === 'loading' ? 'block' : 'none';
-        if (type === 'loading') $('loadingScreen').classList.remove('hidden');
-        else $('loadingScreen').classList.add('hidden');
+        const box = $('status'); box.className = `status visible ${type}`; $('statusText').textContent = message;
+        const spinner = box.querySelector('.spinner'); if (spinner) spinner.style.display = type === 'loading' ? 'block' : 'none';
+        if (type === 'loading') $('loadingScreen').classList.remove('hidden'); else $('loadingScreen').classList.add('hidden');
+        $('help').hidden = type !== 'error';
       }
-
-      function safeName(name) {
-        return name ? name.replace(/[<>]/g, '').slice(0, 120) : 'Cliente';
-      }
-
-      function renderCustomer() {
-        $('customerName').textContent = safeName(data.name);
-        $('customerContact').textContent = [data.email, data.phone].filter(Boolean).join(' · ');
-      }
-
-      function renderBoleto(boleto, message = 'Boleto gerado com sucesso.') {
-        const code = boleto.line || boleto.barcode || boleto.digitable_line || '';
-        const pdf = boleto.pdf_url || boleto.url || '';
+      function safeName(name) { return name ? name.replace(/[<>]/g,'').slice(0,120) : 'Cliente'; }
+      function renderCustomer() { $('customerName').textContent = safeName(data.name); $('customerContact').textContent = [data.email,data.phone].filter(Boolean).join(' · '); }
+      function renderBoleto(boleto, message='Boleto gerado com sucesso.') {
+        const code = boleto.line || boleto.barcode || boleto.digitable_line || ''; const pdf = boleto.pdf_url || boleto.url || '';
         if (!code && !pdf) throw new Error('A resposta não trouxe os dados do boleto.');
         $('barcode').textContent = code || 'Código disponível no PDF';
-        if (pdf) {
-          $('pdfLink').href = pdf;
-          $('pdfLink').setAttribute('aria-disabled', 'false');
-          $('pdfLink').setAttribute('aria-label', 'Abrir boleto em PDF para conferir e pagar');
-        } else {
-          $('pdfLink').style.display = 'none';
-        }
-        if (boleto.due_at) {
-          const due = new Date(boleto.due_at);
-          if (!Number.isNaN(due.getTime())) {
-            $('dueDate').textContent = `Vencimento: ${due.toLocaleDateString('pt-BR')}`;
-            $('dueDate').hidden = false;
-          }
-        }
-        $('boletoResult').classList.add('visible');
-        setStatus('success', message);
-        requestAnimationFrame(() => {
-          $('boletoResult').scrollIntoView({ behavior: 'smooth', block: 'start' });
-          $('pdfLink').focus({ preventScroll: true });
-        });
+        if (pdf) { $('pdfLink').href = pdf; $('pdfLink').setAttribute('aria-disabled','false'); } else { $('pdfLink').style.display='none'; }
+        if (boleto.due_at) { const due = new Date(boleto.due_at); if (!Number.isNaN(due.getTime())) { $('dueDate').textContent=`Vencimento: ${due.toLocaleDateString('pt-BR')}`; $('dueDate').hidden=false; } }
+        $('boletoResult').classList.add('visible'); setStatus('success', message);
+        requestAnimationFrame(() => { $('boletoResult').scrollIntoView({behavior:'smooth',block:'start'}); if (pdf) $('pdfLink').focus({preventScroll:true}); });
       }
-
-      async function getCustomerCacheKey() {
-        const canonical = [data.name, data.email, data.cpf, data.zipCode, data.address, data.number, data.city, data.state]
-          .map(value => String(value || '').trim().toLowerCase()).join('|');
-        if (window.crypto?.subtle) {
-          const bytes = new TextEncoder().encode(canonical);
-          const digest = await crypto.subtle.digest('SHA-256', bytes);
-          return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
-        }
-        return encodeURIComponent(canonical).slice(0, 180);
-      }
-
-      async function readCachedBoleto() {
-        try {
-          const key = CACHE_PREFIX + await getCustomerCacheKey();
-          const cached = localStorage.getItem(key);
-          if (!cached) return null;
-          const parsed = JSON.parse(cached);
-          if (!parsed.savedAt || Date.now() - new Date(parsed.savedAt).getTime() > CACHE_TTL_MS) {
-            localStorage.removeItem(key);
-            return null;
-          }
-          return parsed;
-        } catch (_) {
-          return null;
-        }
-      }
-
-      async function saveCachedBoleto(boleto) {
-        try {
-          const key = CACHE_PREFIX + await getCustomerCacheKey();
-          localStorage.setItem(key, JSON.stringify({ savedAt: new Date().toISOString(), boleto }));
-        } catch (_) {
-          // Se o navegador bloquear o localStorage, a emissão continua normalmente.
-        }
-      }
-
+      async function getCustomerCacheKey() { const canonical=[data.name,data.email,data.cpf,data.zipCode,data.address,data.number,data.city,data.state].map(v=>String(v||'').trim().toLowerCase()).join('|'); if (window.crypto?.subtle) { const bytes=new TextEncoder().encode(canonical); const digest=await crypto.subtle.digest('SHA-256',bytes); return [...new Uint8Array(digest)].map(b=>b.toString(16).padStart(2,'0')).join(''); } return encodeURIComponent(canonical).slice(0,180); }
+      async function readCachedBoleto() { try { const key=CACHE_PREFIX+await getCustomerCacheKey(); const cached=localStorage.getItem(key); if (!cached) return null; const parsed=JSON.parse(cached); if (!parsed.savedAt || Date.now()-new Date(parsed.savedAt).getTime()>CACHE_TTL_MS) { localStorage.removeItem(key); return null; } return parsed; } catch (_) { return null; } }
+      async function saveCachedBoleto(boleto) { try { const key=CACHE_PREFIX+await getCustomerCacheKey(); localStorage.setItem(key,JSON.stringify({savedAt:new Date().toISOString(),boleto})); } catch (_) {} }
       async function generateBoleto() {
-        // O backend deve validar novamente todos os campos e fixar o valor em R$ 59,90.
-        if (requestInFlight) return;
-        requestInFlight = true;
-        $('retryButton').disabled = true;
-        const cached = await readCachedBoleto();
-        if (cached?.boleto) {
-          renderBoleto(cached.boleto, 'Boleto já emitido anteriormente; reutilizamos o mesmo documento.');
-          requestInFlight = false;
-          $('retryButton').disabled = false;
-          return;
-        }
-        try {
-          const response = await fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            credentials: 'same-origin',
-            body: JSON.stringify({ amount: AMOUNT_CENTS, currency: 'BRL', customer: data })
-          });
-          const result = await response.json().catch(() => ({}));
-          if (!response.ok) throw new Error(result.message || 'Não foi possível emitir o boleto.');
-          const boleto = result.boleto || result;
-          await saveCachedBoleto(boleto);
-          renderBoleto(boleto);
-        } finally {
-          requestInFlight = false;
-          $('retryButton').disabled = false;
-        }
+        if (requestInFlight) return; requestInFlight=true; $('retryButton').disabled=true;
+        const cached=await readCachedBoleto(); if (cached?.boleto) { renderBoleto(cached.boleto,'Boleto já emitido; reutilizamos o mesmo documento.'); requestInFlight=false; $('retryButton').disabled=false; return; }
+        try { const response=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},credentials:'same-origin',body:JSON.stringify({amount:AMOUNT_CENTS,currency:'BRL',customer:data})}); const result=await response.json().catch(()=>({})); if (!response.ok) throw new Error(result.message||'Não foi possível emitir o boleto.'); const boleto=result.boleto||result; await saveCachedBoleto(boleto); renderBoleto(boleto); }
+        finally { requestInFlight=false; $('retryButton').disabled=false; }
       }
-
-      $('copyButton').addEventListener('click', async () => {
-        const code = $('barcode').textContent;
-        if (!code || code === 'Código disponível no PDF') return;
-        try {
-          await navigator.clipboard.writeText(code);
-          $('copyButton').textContent = 'Código copiado';
-          setTimeout(() => $('copyButton').textContent = 'Copiar código', 2200);
-        } catch (_) { setStatus('error', 'Não foi possível copiar automaticamente. Selecione o código manualmente.'); }
-      });
-
-      $('retryButton').addEventListener('click', () => {
-        $('boletoResult').classList.remove('visible');
-        setStatus('loading', 'Gerando seu boleto novamente...');
-        generateBoleto().catch((error) => {
-          console.error(error);
-          setStatus('error', error.message || 'Não foi possível gerar o boleto agora.');
-        });
-      });
-
-      renderCustomer();
-      setStatus('loading', 'Gerando seu boleto...');
-      generateBoleto().catch((error) => {
-        console.error(error);
-        setStatus('error', error.message || 'Não foi possível gerar o boleto agora. Atualize a página ou tente novamente.');
-      });
+      $('copyButton').addEventListener('click',async()=>{ const code=$('barcode').textContent; if (!code || code==='Código disponível no PDF') return; try { await navigator.clipboard.writeText(code); $('copyButton').textContent='Código copiado'; setTimeout(()=>$('copyButton').textContent='Copiar código',2200); } catch (_) { setStatus('error','Não foi possível copiar automaticamente. Selecione o código manualmente.'); } });
+      $('retryButton').addEventListener('click',()=>{ $('boletoResult').classList.remove('visible'); $('help').hidden=true; setStatus('loading','Gerando boleto novamente...'); generateBoleto().catch(error=>{ console.error(error); setStatus('error',error.message||'Não foi possível gerar o boleto agora.'); }); });
+      renderCustomer(); setStatus('loading','Gerando boleto...'); generateBoleto().catch(error=>{ console.error(error); setStatus('error',error.message||'Não foi possível gerar o boleto agora.'); });
     })();
   </script>
 </body>
