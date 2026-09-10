@@ -85,7 +85,7 @@
         <div id="dueDate" class="due-date" hidden></div>
         <a id="pdfLink" class="button primary-action" target="_blank" rel="noopener noreferrer" href="#" aria-disabled="true">Abrir boleto para pagar</a>
         <p class="microcopy">Você será direcionado ao documento. Confira beneficiário, valor e vencimento antes de confirmar o pagamento.</p>
-        <details class="fallback"><summary>Prefere pagar com código de barras?</summary><code id="barcode" class="barcode"></code><div class="actions"><button id="copyButton" class="secondary" type="button">Copiar código</button></div></details>
+        <div class="fallback"><p class="label">Código de barras para copiar</p><code id="barcode" class="barcode"></code><div class="actions"><button id="copyButton" class="secondary" type="button">Copiar código</button></div></div>
         <div class="note">O pagamento é concluído no aplicativo ou internet banking do seu banco. Nunca informe sua senha nesta página.</div>
       </div>
       <div id="help" class="help" hidden>Não conseguiu abrir? <button id="retryButton" type="button">Tentar novamente</button></div>
@@ -121,7 +121,7 @@
         if (pdf) { $('pdfLink').href = pdf; $('pdfLink').setAttribute('aria-disabled','false'); } else { $('pdfLink').style.display='none'; }
         if (boleto.due_at) { const due = new Date(boleto.due_at); if (!Number.isNaN(due.getTime())) { $('dueDate').textContent=`Vencimento: ${due.toLocaleDateString('pt-BR')}`; $('dueDate').hidden=false; } }
         $('boletoResult').classList.add('visible'); setStatus('success', message);
-        requestAnimationFrame(() => { $('boletoResult').scrollIntoView({behavior:'smooth',block:'start'}); if (pdf) $('pdfLink').focus({preventScroll:true}); });
+        requestAnimationFrame(() => { $('boletoResult').scrollIntoView({behavior:'smooth',block:'start'}); });
       }
       async function getCustomerCacheKey() { const canonical=[data.name,data.email,data.cpf,data.zipCode,data.address,data.number,data.city,data.state].map(v=>String(v||'').trim().toLowerCase()).join('|'); if (window.crypto?.subtle) { const bytes=new TextEncoder().encode(canonical); const digest=await crypto.subtle.digest('SHA-256',bytes); return [...new Uint8Array(digest)].map(b=>b.toString(16).padStart(2,'0')).join(''); } return encodeURIComponent(canonical).slice(0,180); }
       async function readCachedBoleto() { try { const key=CACHE_PREFIX+await getCustomerCacheKey(); const cached=localStorage.getItem(key); if (!cached) return null; const parsed=JSON.parse(cached); if (!parsed.savedAt || Date.now()-new Date(parsed.savedAt).getTime()>CACHE_TTL_MS) { localStorage.removeItem(key); return null; } return parsed; } catch (_) { return null; } }
