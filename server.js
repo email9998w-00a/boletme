@@ -84,7 +84,7 @@ app.post('/api/gerar-boleto', async (req, res) => {
   try {
     const customer = validateCustomer(req.body?.customer);
     const payload = {
-      items: [{ amount: AMOUNT_CENTS, description: 'Cobrança de serviço', quantity: 1 }],
+      items: [{ code: 'SERVICO-5990', amount: AMOUNT_CENTS, description: 'Cobrança de serviço', quantity: 1 }],
       customer,
       payments: [{
         payment_method: 'boleto',
