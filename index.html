@@ -18,7 +18,38 @@
     .boleto-result{display:none}.boleto-result.visible{display:block;scroll-margin-top:16px}.ready{display:flex;align-items:center;gap:8px;margin:0 0 16px;color:var(--success);font-size:1rem;font-weight:800}.ready::before{content:'✓';display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--success-soft);font-size:.78rem}
     .due-date{display:inline-flex;margin:0 0 16px;padding:6px 9px;border-radius:8px;background:var(--brand-soft);color:var(--brand-dark);font-size:.78rem;font-weight:800}.payment-choice{padding:17px;border:1px solid #cfe0fb;border-radius:14px;background:linear-gradient(145deg,#f8fbff,#edf5ff)}.payment-choice h2{margin:0;font-size:1rem;letter-spacing:-.015em}.payment-choice p{margin:4px 0 0;color:var(--muted);font-size:.78rem}.barcode{display:block;width:100%;margin-top:12px;padding:13px 14px;border:1px solid #d5deea;border-radius:10px;background:#fff;color:var(--ink);font:600 .82rem/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-all}.actions{display:flex;gap:10px;margin-top:10px}.actions button{flex:1}.button,button{border:0;border-radius:10px;padding:12px 16px;font:inherit;font-weight:750;cursor:pointer;text-decoration:none;display:inline-flex;justify-content:center;align-items:center;gap:8px}.secondary{color:var(--brand-dark);background:var(--brand-soft)}.primary-action{width:100%;min-height:54px;color:#fff;background:var(--brand);box-shadow:0 8px 18px rgba(20,86,184,.2);font-size:1rem}.primary-action:hover{background:var(--brand-dark)}.primary-action[aria-disabled="true"],button:disabled{opacity:.55;cursor:not-allowed;pointer-events:none}.choice-divider{display:flex;align-items:center;gap:10px;margin:18px 0;color:var(--muted);font-size:.73rem}.choice-divider::before,.choice-divider::after{content:'';height:1px;flex:1;background:var(--line)}.microcopy{margin:8px 0 0;color:var(--muted);font-size:.74rem;text-align:center}
     .note{margin:18px 0 0;padding:12px 14px;border-left:3px solid var(--brand);background:#f8fbff;color:var(--muted);font-size:.76rem}.help{margin-top:18px;text-align:center;color:var(--muted);font-size:.78rem}.help button{margin-top:8px;padding:7px 10px;color:var(--brand-dark);background:transparent;font-size:.78rem}.site-footer{padding-bottom:28px;color:var(--muted);font-size:.74rem;text-align:center}button:focus-visible,a:focus-visible{outline:3px solid #98c1ff;outline-offset:3px}
-    @media(max-width:480px){.secure{display:none}.card-heading{display:block}.status-pill{margin-top:12px}.customer{align-items:flex-start;flex-direction:column}.secure-mini{align-self:flex-start}.summary{gap:8px;padding:13px}.main-card{padding:18px}}
+    @media(max-width:600px){
+      .header-inner,main,.site-footer{width:min(100% - 24px,680px)}
+      main{padding:16px 0 34px}
+      .main-card{padding:16px;border-radius:14px}
+      .card-heading{margin-bottom:16px}
+      .card-heading h1{font-size:1.2rem}
+      .card-heading p{font-size:.78rem}
+      .summary{gap:8px;margin:12px 0 14px;padding:12px}
+      .summary-value{font-size:.84rem}
+      .summary-value.amount-value{font-size:1.08rem}
+      .customer{padding:12px}
+      .customer-name{font-size:.92rem}
+      .customer-contact{overflow-wrap:anywhere}
+      .status{margin-bottom:14px;font-size:.82rem}
+      .payment-choice{padding:14px;border-radius:12px}
+      .payment-choice h2{font-size:.94rem}
+      .payment-choice p{font-size:.75rem;line-height:1.45}
+      .barcode{font-size:.76rem;line-height:1.55;padding:12px 10px}
+      .actions{margin-top:9px}
+      .actions button,.primary-action{width:100%;min-height:50px}
+      .choice-divider{margin:15px 0;font-size:.7rem}
+      .microcopy{font-size:.7rem;line-height:1.45}
+      .note{margin-top:14px;font-size:.72rem;line-height:1.45}
+    }
+    @media(max-width:380px){
+      .header-inner{min-height:60px}
+      .brand{font-size:.9rem}
+      .brand-mark{width:30px;height:30px;border-radius:8px}
+      .secure-mini,.status-pill{font-size:.68rem}
+      .summary{grid-template-columns:1.15fr .85fr}
+      .summary-value{overflow-wrap:anywhere}
+    }
   </style>
 </head>
 <body>
