@@ -1237,7 +1237,15 @@
             .payment-header-back { font-size:11px; }
         }
 
-    </style>
+    
+        body.review-open .main-container {
+            max-width: 900px;
+            grid-template-columns: minmax(0, 1fr);
+        }
+        body.review-open .sidebar {
+            display: none;
+        }
+</style>
 </head>
 <body>
     <!-- Header Profissional -->
@@ -1580,118 +1588,69 @@
                     </div>
                 </div>
 
-                <!-- Etapa 3: Confirmação -->
+                <!-- Etapa 3: Revisão e confirmação -->
                 <div class="step-content" id="step3">
                     <div class="form-header">
-                        <h1 class="form-title">Confirmação e Finalização</h1>
-                        <p class="form-subtitle">Revise os dados enviados para o serviço privado de assessoria</p>
+                        <h1 class="form-title">Confira e conclua</h1>
+                        <p class="form-subtitle">Revise os dados e confirme as informações essenciais antes de avançar.</p>
                     </div>
-                    
+
                     <div class="form-content">
-                        <!-- Seção de Revisão de Dados -->
                         <div class="review-section">
-                            <div class="review-header" onclick="toggleReviewSection()">
+                            <div class="review-header" onclick="toggleReviewSection()" role="button" tabindex="0" aria-controls="reviewContent" aria-expanded="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleReviewSection();}">
                                 <div class="review-header-left">
-                                    <i class="fas fa-clipboard-list review-header-icon"></i>
-                                    <span class="review-header-text">Revisar Dados Informados</span>
+                                    <i class="fas fa-clipboard-list review-header-icon" aria-hidden="true"></i>
+                                    <span class="review-header-text">Conferir meus dados</span>
                                 </div>
-                                <i class="fas fa-chevron-down review-header-arrow"></i>
+                                <i class="fas fa-chevron-down review-header-arrow" aria-hidden="true"></i>
                             </div>
                             <div class="review-content" id="reviewContent">
                                 <div class="review-content-inner">
-                                    <div class="review-grid" id="reviewGrid">
-                                        <!-- Dados serão preenchidos dinamicamente -->
-                                    </div>
+                                    <div class="review-grid" id="reviewGrid"></div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- NOVA SEÇÃO: Comunicado sobre Taxa de Abertura -->
-                        <div class="fee-notice-section">
+                        <section class="fee-notice-section" aria-labelledby="servicePriceTitle">
                             <div class="fee-notice-header">
-                                <i class="fas fa-info-circle fee-notice-icon"></i>
-                                <h3 class="fee-notice-title">Sobre o valor do serviço</h3>
+                                <i class="fas fa-info-circle fee-notice-icon" aria-hidden="true"></i>
+                                <h2 class="fee-notice-title" id="servicePriceTitle">Serviço privado e opcional</h2>
                             </div>
                             <div class="fee-notice-content">
-                                <p class="fee-notice-text">
-                                    Este é um serviço privado e opcional de assessoria. O valor abaixo corresponde ao serviço contratado, não a uma taxa do governo. A abertura e formalização do MEI diretamente pelos canais oficiais do Governo Federal são gratuitas.
-                                </p>
-                                
                                 <div class="fee-highlight-box">
                                     <div class="fee-amount">R$ 59,90</div>
-                                    <div class="fee-description">Valor do serviço privado de assessoria</div>
+                                    <div class="fee-description">Valor total demonstrativo da assessoria</div>
                                 </div>
-
-                                <p class="fee-notice-text">
-                                    <strong>Escopo informado do serviço:</strong>
-                                </p>
-                                
-                                <ul class="fee-benefits-list">
-                                    <li>Processamento completo da documentação</li>
-                                    <li>Orientação e apoio administrativo durante o preenchimento</li>
-                                    <li>Revisão das informações fornecidas pelo cliente</li>
-                                    <li>O protocolo e a emissão dos documentos oficiais dependem dos canais governamentais</li>
-                                    <li>Suporte especializado durante todo o processo</li>
-                                    <li>Entrega dos documentos digitais por e-mail</li>
-                                </ul>
-
-                                <p class="fee-notice-text">
-                                    <strong>Importante:</strong> A contratação deste serviço privado não é obrigatória para abrir um MEI. Confira o escopo, as condições comerciais e a política de cancelamento da empresa antes de pagar.
-                                </p>
+                                <p class="fee-notice-text">O serviço oferece apoio administrativo e revisão das informações. A abertura oficial do MEI pelos canais do Governo Federal é gratuita; contratar assessoria não é obrigatório. O protocolo e a emissão de documentos oficiais dependem dos canais governamentais.</p>
                             </div>
-                        </div>
+                        </section>
 
                         <div class="declaration-section">
-                            <h3 class="declaration-title">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                Declaração e Termos
-                            </h3>
-                            <p class="declaration-text">
-                                Ao prosseguir, você declara que leu e aceita os Termos de Uso e a Política de Privacidade, 
-                                confirma que as informações fornecidas são verdadeiras e autoriza o processamento dos seus 
-                                dados conforme a Lei Geral de Proteção de Dados (LGPD).
-                            </p>
-                            
+                            <h2 class="declaration-title"><i class="fas fa-shield-halved" aria-hidden="true"></i> Confirmações necessárias</h2>
                             <div class="checkbox-group">
                                 <input type="checkbox" id="termsAccept" name="termsAccept" class="checkbox-input" required>
-                                <label for="termsAccept" class="checkbox-label">
-                                    Declaro que li e aceito os <strong>Termos de Uso</strong> e a <strong>Política de Privacidade</strong>
-                                </label>
+                                <label for="termsAccept" class="checkbox-label">Li e aceito os <strong>Termos de Uso</strong> e a <strong>Política de Privacidade</strong>.</label>
                             </div>
-                            
                             <div class="checkbox-group">
                                 <input type="checkbox" id="dataAccuracy" name="dataAccuracy" class="checkbox-input" required>
-                                <label for="dataAccuracy" class="checkbox-label">
-                                    Confirmo que todas as informações fornecidas são <strong>verdadeiras e precisas</strong>
-                                </label>
+                                <label for="dataAccuracy" class="checkbox-label">Confirmo que os dados informados são verdadeiros.</label>
                             </div>
-                            
                             <div class="checkbox-group">
                                 <input type="checkbox" id="lgpdConsent" name="lgpdConsent" class="checkbox-input" required>
-                                <label for="lgpdConsent" class="checkbox-label">
-                                    Autorizo o processamento dos meus dados pessoais conforme a <strong>LGPD</strong>
-                                </label>
-                            </div>
-
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="feeAcknowledge" name="feeAcknowledge" class="checkbox-input" required>
-                                <label for="feeAcknowledge" class="checkbox-label">
-                                    Estou ciente de que <strong>R$ 59,90 é o preço demonstrativo de um serviço privado</strong>, e não uma taxa governamental
-                                </label>
+                                <label for="lgpdConsent" class="checkbox-label">Autorizo o tratamento dos meus dados pessoais conforme a LGPD.</label>
                             </div>
                         </div>
 
                         <form id="confirmationForm">
                             <div class="button-group">
                                 <button type="button" class="btn btn-secondary" onclick="goToStep(2)">
-                                    <i class="fas fa-arrow-left"></i>
-                                    Voltar
+                                    <i class="fas fa-arrow-left" aria-hidden="true"></i> Voltar
                                 </button>
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-credit-card"></i>
-                                    Continuar para pagamento (R$ 59,90)
+                                    <i class="fas fa-arrow-right" aria-hidden="true"></i> Ir para pagamento · R$ 59,90
                                 </button>
                             </div>
+                            <p class="payment-return-help" style="text-align:center">Esta demonstração não emite boleto nem realiza cobrança.</p>
                         </form>
                     </div>
                 </div>
@@ -1991,6 +1950,10 @@
             const addressFields = document.getElementById('addressFields');
             
             if (cep.length === 8) {
+                // Recolhe o teclado virtual assim que o CEP completo é informado.
+                if (document.activeElement === cepInput) {
+                    cepInput.blur();
+                }
                 if (isProcessing) return;
                 isProcessing = true;
                 
@@ -2101,6 +2064,7 @@
 
         function updateStepDisplay() {
             const paymentOpen = currentStep === 4;
+            document.body.classList.toggle('review-open', currentStep === 3);
             document.documentElement.classList.toggle('payment-open', paymentOpen);
             document.body.classList.toggle('payment-open', paymentOpen);
             document.querySelectorAll('.step-content').forEach(content => {
@@ -2148,6 +2112,7 @@
             if (header && content) {
                 header.classList.toggle('expanded');
                 content.classList.toggle('expanded');
+                header.setAttribute('aria-expanded', content.classList.contains('expanded') ? 'true' : 'false');
                 
                 if (content.classList.contains('expanded')) {
                     updateReviewData();
@@ -2390,7 +2355,7 @@
             e.preventDefault();
             
             if (!validateCurrentStep()) {
-                alert('Por favor, aceite todos os termos para continuar.');
+                alert('Confira as confirmações obrigatórias para continuar.');
                 return;
             }
 
@@ -2405,7 +2370,6 @@
                     termsAccept: document.getElementById('termsAccept')?.checked,
                     dataAccuracy: document.getElementById('dataAccuracy')?.checked,
                     lgpdConsent: document.getElementById('lgpdConsent')?.checked,
-                    feeAcknowledge: document.getElementById('feeAcknowledge')?.checked,
                     submissionDate: new Date().toISOString()
                 };
                 window.meiData = { ...window.meiData, ...declarationData };
