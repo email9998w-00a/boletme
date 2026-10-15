@@ -1307,7 +1307,7 @@
                             </div>
 
                             <!-- Campos Condicionais -->
-                            <div class="contact-fields">
+                            <div class="conditional-fields" id="conditionalFields">
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label class="form-label required" for="email">E-mail</label>
@@ -1812,6 +1812,12 @@
                 });
             });
 
+            // Exibe os campos seguintes quando o CPF estiver válido.
+            const cpfInput = document.getElementById('cpf');
+            if (cpfInput) {
+                cpfInput.addEventListener('input', debounce(handleCpfInput, DEBOUNCE_DELAY));
+            }
+
             // CEP lookup
             const zipCodeInput = document.getElementById('zipCode');
             if (zipCodeInput) {
@@ -1853,6 +1859,19 @@
                 .replace(/(\d{3})(\d)/, '$1.$2')
                 .replace(/(\d{3})(\d)/, '$1.$2')
                 .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+        }
+
+        function handleCpfInput() {
+            const cpfInput = document.getElementById('cpf');
+            const followingFields = document.getElementById('conditionalFields');
+            if (!cpfInput || !followingFields) return;
+
+            if (validateCPF(cpfInput.value)) {
+                followingFields.classList.add('show');
+                validateField(cpfInput);
+            } else {
+                followingFields.classList.remove('show');
+            }
         }
 
         function applyPhoneMask(value) {
