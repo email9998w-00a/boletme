@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assessoria privada para MEI — demonstração</title>
+    <title>Assessoria privada para MEI</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -963,12 +963,11 @@
             }
         }
 
-        .private-service-badge, .demo-badge {
+        .private-service-badge {
             display: inline-flex; align-items: center; gap: 7px; padding: 8px 12px;
             border-radius: 20px; font-size: 12px; font-weight: 600;
+            color: #075985; background: #e0f2fe; border: 1px solid #7dd3fc;
         }
-        .private-service-badge { color: #075985; background: #e0f2fe; border: 1px solid #7dd3fc; }
-        .demo-badge { color: #92400e; background: #fef3c7; border: 1px solid #fcd34d; }
         .payment-panel { padding: 28px 32px 32px; }
         .payment-status { display:flex; align-items:center; gap:10px; padding:14px 16px; margin-bottom:22px;
             border:1px solid #fcd34d; border-radius:10px; background:#fffbeb; color:#92400e; font-weight:600; }
@@ -982,7 +981,7 @@
         .payment-actions { display:flex; gap:12px; margin-top:24px; }
         .payment-actions { justify-content:flex-end; }
         .payment-actions .btn { flex:0 1 360px; }
-        @media(max-width:700px) { .payment-panel {padding:20px;} .payment-grid {grid-template-columns:1fr;} .payment-actions {flex-direction:column;} .private-service-badge,.demo-badge {font-size:10px;padding:6px 8px;} }
+        @media(max-width:700px) { .payment-panel {padding:20px;} .payment-grid {grid-template-columns:1fr;} .payment-actions {flex-direction:column;} .private-service-badge {font-size:10px;padding:6px 8px;} }
 
         /* ===== TELA INDEPENDENTE DE PAGAMENTO ===== */
         .payment-screen.active { display:block !important; position:fixed; inset:0; z-index:2500; width:100vw; height:100vh;
@@ -1015,8 +1014,8 @@
 
         /* ===== CHECKOUT BOLETO ===== */
         .payment-panel { padding: 28px 32px 32px; }
-        .payment-status { display:flex; align-items:flex-start; gap:11px; padding:14px 16px; margin-bottom:22px;
-            border:1px solid #fcd34d; border-radius:10px; background:#fffbeb; color:#854d0e; font-weight:600; }
+        .payment-status { display:flex; align-items:flex-start; gap:11px; padding:13px 15px; margin-bottom:18px;
+            border:1px solid var(--gray-200); border-radius:10px; background:var(--gray-50); color:var(--gray-700); font-weight:500; line-height:1.5; }
         .payment-grid { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(250px,.75fr); gap:20px; align-items:start; }
         .payment-card { border:1px solid var(--gray-200); border-radius:14px; padding:22px; background:#fff; box-shadow:var(--shadow-sm); }
         .payment-card h2,.payment-card h3 { color:var(--gray-900); margin-bottom:8px; }
@@ -1255,7 +1254,7 @@
             
             <div class="security-indicators">
                 <div class="private-service-badge"><i class="fas fa-store"></i> Serviço privado</div>
-                <div class="demo-badge"><i class="fas fa-flask"></i> Demonstração</div>
+                
             </div>
         </div>
     </header>
@@ -1709,7 +1708,7 @@
                             <div class="checkbox-group">
                                 <input type="checkbox" id="feeAcknowledge" name="feeAcknowledge" class="checkbox-input" required>
                                 <label for="feeAcknowledge" class="checkbox-label">
-                                    Estou ciente de que <strong>R$ 59,90 é o preço demonstrativo de um serviço privado</strong>, e não uma taxa governamental
+                                    Estou ciente de que <strong>R$ 59,90 é o preço de um serviço privado opcional</strong>, e não uma taxa governamental
                                 </label>
                             </div>
                         </div>
@@ -1749,49 +1748,32 @@
             </header>
             <div class="payment-screen-body">
                 <div class="payment-page-title">
-                    <div><span class="payment-kind-badge"><i class="fas fa-barcode" aria-hidden="true"></i> PAGAMENTO VIA BOLETO BANCÁRIO</span><h1 id="paymentTitle">Pague com boleto bancário</h1><p>Copie a linha digitável e conclua o pagamento pelo app do seu banco.</p></div>
-                    <div class="payment-secure-label"><i class="fas fa-clock" aria-hidden="true"></i> Emissão disponível após conectar a API</div>
+                    <div>
+                        <span class="payment-kind-badge"><i class="fas fa-barcode" aria-hidden="true"></i> BOLETO BANCÁRIO</span>
+                        <h1 id="paymentTitle">Pagamento por boleto</h1>
+                        <p>Confira o valor do serviço antes de continuar.</p>
+                    </div>
                 </div>
                 <div class="payment-panel">
                     <div class="payment-status" id="paymentStatus" role="status" aria-live="polite">
                         <i class="fas fa-circle-info" aria-hidden="true"></i>
-                        <span>Demonstração: nenhum boleto real foi emitido. O botão “Já paguei” abre um link de exemplo e não verifica nem confirma pagamentos.</span>
+                        <span><strong>Boleto indisponível no momento.</strong> Nenhuma cobrança foi emitida por esta página.</span>
                     </div>
-                    <div class="payment-grid">
-                        <section class="payment-card payment-order-card" aria-labelledby="boletoCardTitle">
-                            <h2 id="boletoCardTitle">Resumo do pedido</h2>
-                            <p class="payment-card-intro">Serviço privado e opcional de assessoria.</p>
-                            <div class="payment-total">
-                                <div><span class="payment-total-label">Serviço</span><strong class="payment-service-name">Assessoria MEI</strong></div>
-                                <strong class="payment-amount" id="paymentAmount">R$ 59,90</strong>
-                            </div>
-                            <div class="payment-method"><i class="fas fa-barcode" aria-hidden="true"></i><span>Boleto bancário</span></div>
-                            <label class="code-label" for="digitableLine"><i class="fas fa-barcode" aria-hidden="true"></i> Linha digitável do boleto bancário</label>
-                            <div class="code-row">
-                                <input class="code-input" id="digitableLine" type="text" readonly placeholder="A linha digitável do boleto aparecerá aqui após a emissão" aria-describedby="paymentHelp">
-                                <button class="copy-btn" id="copyBoletoBtn" type="button" onclick="copyDigitableLine()" disabled aria-disabled="true">
-                                    <i class="fas fa-copy" aria-hidden="true"></i> Copiar linha digitável
-                                </button>
-                            </div>
-                            <p class="copy-feedback" id="copyFeedback" role="status" aria-live="polite"></p>
-                            <p class="payment-help" id="paymentHelp">A linha digitável será exibida aqui após a emissão. Copie-a e cole no app do seu banco.</p>
-                        </section>
-                        <aside class="payment-card" aria-labelledby="nextStepsTitle">
-                            <h3 id="nextStepsTitle">Como concluir o pagamento</h3>
-                            <ol class="steps-list">
-                                <li>Quando o boleto for emitido, clique em <strong>Copiar linha digitável</strong>.</li>
-                                <li>Cole o código no app ou internet banking e confira o valor.</li>
-                                <li>Conclua o pagamento no banco. Depois, clique em <strong>Já paguei</strong> para abrir a página de retorno.</li>
-                            </ol>
-                            <div class="security-note"><i class="fas fa-shield-halved" aria-hidden="true"></i><span>Confirme o valor e as informações apresentadas pelo seu banco antes de concluir o pagamento.</span></div>
-                        </aside>
+                    <section class="payment-card payment-order-card" aria-labelledby="boletoCardTitle">
+                        <h2 id="boletoCardTitle">Resumo do pedido</h2>
+                        <p class="payment-card-intro">Serviço privado e opcional de assessoria.</p>
+                        <div class="payment-total">
+                            <div><span class="payment-total-label">Serviço</span><strong class="payment-service-name">Assessoria MEI</strong></div>
+                            <strong class="payment-amount" id="paymentAmount">R$ 59,90</strong>
+                        </div>
+                    </section>
+                    <div class="payment-note payment-disclosure">
+                        A abertura do MEI pelos canais oficiais do Governo Federal é gratuita. Esta assessoria é um serviço privado opcional.
+                        <a href="https://www.gov.br/pt-br/servicos/realizar-registro-como-microempreendedor-individual-mei" target="_blank" rel="noopener noreferrer">Consulte o serviço oficial no gov.br</a>.
                     </div>
-                    <div class="payment-note payment-disclosure">A abertura do MEI diretamente pelos canais oficiais do Governo Federal é gratuita. O valor acima é apenas o preço demonstrativo de um serviço privado opcional. <a href="https://www.gov.br/pt-br/servicos/realizar-registro-como-microempreendedor-individual-mei" target="_blank" rel="noopener noreferrer">Consulte o serviço oficial gratuito no gov.br</a>.</div>
-                    <div id="apiNotice" class="payment-note" role="status" aria-live="polite" style="display:none"></div>
                     <div class="payment-actions">
-                        <button type="button" class="btn btn-secondary payment-return-btn" id="paymentReturnBtn" onclick="redirectAfterPayment()" disabled aria-disabled="true"><i class="fas fa-check-circle" aria-hidden="true"></i> Já paguei</button>
+                        <button type="button" class="btn btn-secondary" onclick="goToStep(3)"><i class="fas fa-arrow-left" aria-hidden="true"></i> Voltar à revisão</button>
                     </div>
-                    <p class="payment-return-help">Este link de demonstração não confirma nem verifica o pagamento.</p>
                 </div>
             </div>
         </section>
@@ -2423,55 +2405,6 @@
             // if (!response.ok) throw new Error('Não foi possível gerar o boleto.');
             // return response.json();
             throw new Error('API de boleto ainda não conectada.');
-        }
-
-        function renderBoleto(boleto) {
-            if (!boleto || !boleto.digitableLine) {
-                throw new Error('A API não retornou a linha digitável do boleto.');
-            }
-            if (boleto.amountCents !== undefined && Number(boleto.amountCents) !== 5990) {
-                throw new Error('O valor retornado pela API não corresponde ao pedido.');
-            }
-            document.getElementById('digitableLine').value = boleto.digitableLine;
-            const copyButton = document.getElementById('copyBoletoBtn');
-            copyButton.disabled = false;
-            copyButton.removeAttribute('aria-disabled');
-            const status = document.getElementById('paymentStatus');
-            status.innerHTML = '<i class="fas fa-circle-check" aria-hidden="true"></i><span>Boleto emitido. Copie a linha digitável e confira os dados no app do seu banco antes de pagar.</span>';
-            status.style.background = 'var(--success-light)';
-            status.style.borderColor = 'var(--success-color)';
-            status.style.color = 'var(--success-color)';
-        }
-
-        async function copyDigitableLine() {
-            const input = document.getElementById('digitableLine');
-            const notice = document.getElementById('copyFeedback');
-            if (!input.value.trim()) {
-                notice.textContent = 'A linha digitável ficará disponível após a emissão do boleto.';
-                return;
-            }
-            try {
-                await navigator.clipboard.writeText(input.value);
-            } catch (error) {
-                input.focus(); input.select();
-                const copied = document.execCommand('copy');
-                if (!copied) {
-                    notice.textContent = 'Não foi possível copiar automaticamente. Selecione e copie a linha digitável.';
-                    notice.style.display = 'block';
-                    return;
-                }
-            }
-            notice.textContent = 'Linha digitável copiada. Cole-a no app do seu banco para concluir o pagamento.';
-            notice.style.display = 'block';
-            const returnButton = document.getElementById('paymentReturnBtn');
-            returnButton.disabled = false;
-            returnButton.removeAttribute('aria-disabled');
-        }
-
-        function redirectAfterPayment() {
-            // URL demonstrativa. Troque pelo endereço do seu fluxo real de confirmação.
-            // O redirecionamento não comprova pagamento; valide o status via API/webhook no servidor.
-            window.location.assign('https://example.com/');
         }
 
         async function handleConfirmationSubmit(e) {
