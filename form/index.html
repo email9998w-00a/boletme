@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assessoria privada para MEI</title>
+    <title>Assessoria privada para MEI — demonstração</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -963,11 +963,26 @@
             }
         }
 
-        .private-service-badge {
+        .private-service-badge, .demo-badge {
             display: inline-flex; align-items: center; gap: 7px; padding: 8px 12px;
             border-radius: 20px; font-size: 12px; font-weight: 600;
-            color: #075985; background: #e0f2fe; border: 1px solid #7dd3fc;
         }
+        .private-service-badge { color: #075985; background: #e0f2fe; border: 1px solid #7dd3fc; }
+        .demo-badge { color: #92400e; background: #fef3c7; border: 1px solid #fcd34d; }
+        .payment-panel { padding: 28px 32px 32px; }
+        .payment-status { display:flex; align-items:center; gap:10px; padding:14px 16px; margin-bottom:22px;
+            border:1px solid #fcd34d; border-radius:10px; background:#fffbeb; color:#92400e; font-weight:600; }
+        .payment-grid { display:grid; grid-template-columns: 1.2fr .8fr; gap:20px; }
+        .payment-card { border:1px solid var(--gray-200); border-radius:12px; padding:22px; background:#fff; }
+        .payment-card h2, .payment-card h3 { color:var(--gray-900); margin-bottom:12px; }
+        .payment-amount { font-size:30px; font-weight:700; color:var(--primary-color); margin:8px 0 4px; }
+        .payment-meta { color:var(--gray-600); font-size:14px; }
+        .payment-note { margin-top:16px; padding:14px 16px; border-left:4px solid var(--primary-color);
+            background:var(--primary-light); border-radius:4px 8px 8px 4px; color:var(--gray-700); font-size:14px; }
+        .payment-actions { display:flex; gap:12px; margin-top:24px; }
+        .payment-actions { justify-content:flex-end; }
+        .payment-actions .btn { flex:0 1 360px; }
+        @media(max-width:700px) { .payment-panel {padding:20px;} .payment-grid {grid-template-columns:1fr;} .payment-actions {flex-direction:column;} .private-service-badge,.demo-badge {font-size:10px;padding:6px 8px;} }
 
         /* ===== TELA INDEPENDENTE DE PAGAMENTO ===== */
         .payment-screen.active { display:block !important; position:fixed; inset:0; z-index:2500; width:100vw; height:100vh;
@@ -1173,19 +1188,14 @@
             opacity: 1;
             color: var(--error-color);
         }
-        /* ===== CHECKOUT ENXUTO E DIRETO ===== */
+        /* ===== REFINO MOBILE DO CHECKOUT ===== */
         .payment-kind-badge { display:inline-flex; align-items:center; gap:8px; margin-bottom:10px; padding:7px 11px;
             border-radius:999px; background:#e8efff; color:#1e40af; font-size:11px; line-height:1.2; font-weight:800; letter-spacing:.045em; }
-        .payment-status { line-height:1.5; font-size:14px; font-weight:500; background:var(--gray-50); border-color:var(--gray-200); color:var(--gray-700); }
-        .payment-page-title p { line-height:1.5; }
-        .payment-grid { grid-template-columns:minmax(0, 760px); }
-        .payment-order-card { width:100%; }
-        .payment-card-intro { margin-bottom:14px; }
         .code-label { display:flex; align-items:center; gap:8px; color:#173b8f; font-size:14px; font-weight:750; }
         .code-label i { font-size:17px; }
         .payment-method { background:#e8efff; color:#173b8f; }
-        .payment-disclosure { color:var(--gray-500); background:transparent; border-left:0; padding:0; font-size:12px; }
-        .payment-actions, .payment-return-help { display:none; }
+        .payment-status { line-height:1.5; font-size:14px; }
+        .payment-page-title p { line-height:1.5; }
         @media (max-width: 640px) {
             .payment-screen.active { height:100vh; height:100dvh; min-height:100vh; width:100vw; max-width:100vw; left:0; right:0; box-sizing:border-box; }
             html.payment-open, body.payment-open { overflow-x:hidden; }
@@ -1198,11 +1208,13 @@
             .payment-page-title { margin-bottom:16px; }
             .payment-page-title h1 { font-size:22px; line-height:1.2; }
             .payment-page-title p { font-size:14px; }
+            .payment-secure-label { white-space:normal; font-size:12px; padding-top:10px; }
             .payment-panel { padding:0; }
             .payment-status { gap:9px; padding:12px; margin-bottom:14px; font-size:13px; }
             .payment-grid { grid-template-columns:minmax(0,1fr); gap:12px; }
             .payment-card { min-width:0; padding:16px; border-radius:12px; }
-            .payment-card h2 { font-size:17px; }
+            .payment-card h2,.payment-card h3 { font-size:17px; }
+            .payment-card-intro { font-size:13px; margin-bottom:14px; }
             .payment-total { align-items:flex-end; gap:8px; padding:14px 0; }
             .payment-amount { font-size:25px; }
             .payment-method { margin-top:14px; font-size:12px; }
@@ -1212,8 +1224,12 @@
             .copy-btn { width:100%; min-height:52px; white-space:normal; font-size:14px; }
             .payment-help { font-size:12px; line-height:1.5; }
             .copy-feedback { font-size:13px; line-height:1.4; }
+            .steps-list { font-size:13px; line-height:1.55; }
             .security-note { font-size:12px; }
-            .payment-disclosure { font-size:12px; line-height:1.5; padding:0; }
+            .payment-note { font-size:12px; line-height:1.5; padding:12px; }
+            .payment-actions { display:block; margin-top:16px; }
+            .payment-actions .btn { width:100%; max-width:none; min-height:50px; }
+            .payment-return-help { text-align:center; line-height:1.45; }
         }
         @media (max-width:360px) {
             .payment-screen-body { padding-left:10px; padding-right:10px; }
@@ -1239,6 +1255,7 @@
             
             <div class="security-indicators">
                 <div class="private-service-badge"><i class="fas fa-store"></i> Serviço privado</div>
+                <div class="demo-badge"><i class="fas fa-flask"></i> Demonstração</div>
             </div>
         </div>
     </header>
@@ -1295,19 +1312,70 @@
                                     <div class="error-message" id="fullNameError">Digite seu nome completo</div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="form-label required" for="cpf">CPF</label>
-                                    <div class="form-input-wrapper">
-                                        <input type="text" id="cpf" name="cpf" class="form-input" maxlength="14" required placeholder="000.000.000-00" inputmode="numeric" autocomplete="off">
-                                        <i class="fas fa-check validation-icon"></i>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label required" for="cpf">CPF</label>
+                                        <div class="form-input-wrapper">
+                                            <input type="text" id="cpf" name="cpf" class="form-input" maxlength="14" required placeholder="000.000.000-00" inputmode="numeric" autocomplete="off">
+                                            <i class="fas fa-check validation-icon"></i>
+                                        </div>
+                                        <div class="error-message" id="cpfError">Digite um CPF válido</div>
+                                        <div class="loading-indicator" id="cpfLoadingIndicator">
+                                            <div class="spinner"></div>
+                                            <span>Validando CPF...</span>
+                                        </div>
                                     </div>
-                                    <div class="error-message" id="cpfError">Digite um CPF válido</div>
-                                </div>
                                 </div>
                             </div>
 
                             <!-- Campos Condicionais -->
                             <div class="conditional-fields" id="conditionalFields">
+                                <div class="info-section">
+                                    <div class="info-section-header">
+                                        <i class="fas fa-id-card info-section-icon"></i>
+                                        <h3 class="info-section-title">Informações do Documento</h3>
+                                    </div>
+                                    <div class="info-section-content">
+                                        <div class="form-row">
+                                            
+                                            <div class="form-group">
+                                                <label class="form-label required" for="rgState">Estado de Emissão</label>
+                                                <select id="rgState" name="rgState" class="form-input form-select" required>
+                                                    <option value="">Selecione o estado</option>
+                                                    <option value="AC">Acre (AC)</option>
+                                                    <option value="AL">Alagoas (AL)</option>
+                                                    <option value="AP">Amapá (AP)</option>
+                                                    <option value="AM">Amazonas (AM)</option>
+                                                    <option value="BA">Bahia (BA)</option>
+                                                    <option value="CE">Ceará (CE)</option>
+                                                    <option value="DF">Distrito Federal (DF)</option>
+                                                    <option value="ES">Espírito Santo (ES)</option>
+                                                    <option value="GO">Goiás (GO)</option>
+                                                    <option value="MA">Maranhão (MA)</option>
+                                                    <option value="MT">Mato Grosso (MT)</option>
+                                                    <option value="MS">Mato Grosso do Sul (MS)</option>
+                                                    <option value="MG">Minas Gerais (MG)</option>
+                                                    <option value="PA">Pará (PA)</option>
+                                                    <option value="PB">Paraíba (PB)</option>
+                                                    <option value="PR">Paraná (PR)</option>
+                                                    <option value="PE">Pernambuco (PE)</option>
+                                                    <option value="PI">Piauí (PI)</option>
+                                                    <option value="RJ">Rio de Janeiro (RJ)</option>
+                                                    <option value="RN">Rio Grande do Norte (RN)</option>
+                                                    <option value="RS">Rio Grande do Sul (RS)</option>
+                                                    <option value="RO">Rondônia (RO)</option>
+                                                    <option value="RR">Roraima (RR)</option>
+                                                    <option value="SC">Santa Catarina (SC)</option>
+                                                    <option value="SP">São Paulo (SP)</option>
+                                                    <option value="SE">Sergipe (SE)</option>
+                                                    <option value="TO">Tocantins (TO)</option>
+                                                </select>
+                                                <div class="error-message" id="rgStateError">Selecione o estado</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label class="form-label required" for="email">E-mail</label>
@@ -1608,7 +1676,7 @@
                             <div class="checkbox-group">
                                 <input type="checkbox" id="feeAcknowledge" name="feeAcknowledge" class="checkbox-input" required>
                                 <label for="feeAcknowledge" class="checkbox-label">
-                                    Estou ciente de que <strong>R$ 59,90 é o valor do serviço privado de assessoria</strong>, e não uma taxa governamental
+                                    Estou ciente de que <strong>R$ 59,90 é o preço demonstrativo de um serviço privado</strong>, e não uma taxa governamental
                                 </label>
                             </div>
                         </div>
@@ -1648,39 +1716,49 @@
             </header>
             <div class="payment-screen-body">
                 <div class="payment-page-title">
-                    <div>
-                        <span class="payment-kind-badge"><i class="fas fa-barcode" aria-hidden="true"></i> BOLETO BANCÁRIO</span>
-                        <h1 id="paymentTitle">Pague com boleto</h1>
-                        <p>Copie a linha digitável e finalize no app do seu banco.</p>
-                    </div>
+                    <div><span class="payment-kind-badge"><i class="fas fa-barcode" aria-hidden="true"></i> PAGAMENTO VIA BOLETO BANCÁRIO</span><h1 id="paymentTitle">Pague com boleto bancário</h1><p>Copie a linha digitável e conclua o pagamento pelo app do seu banco.</p></div>
+                    <div class="payment-secure-label"><i class="fas fa-clock" aria-hidden="true"></i> Emissão disponível após conectar a API</div>
                 </div>
                 <div class="payment-panel">
                     <div class="payment-status" id="paymentStatus" role="status" aria-live="polite">
                         <i class="fas fa-circle-info" aria-hidden="true"></i>
-                        <span>O boleto aparecerá aqui após a emissão.</span>
+                        <span>Demonstração: nenhum boleto real foi emitido. O botão “Já paguei” abre um link de exemplo e não verifica nem confirma pagamentos.</span>
                     </div>
                     <div class="payment-grid">
                         <section class="payment-card payment-order-card" aria-labelledby="boletoCardTitle">
-                            <h2 id="boletoCardTitle">Valor do serviço</h2>
-                            <p class="payment-card-intro">Assessoria MEI — serviço privado e opcional.</p>
+                            <h2 id="boletoCardTitle">Resumo do pedido</h2>
+                            <p class="payment-card-intro">Serviço privado e opcional de assessoria.</p>
                             <div class="payment-total">
-                                <div><span class="payment-total-label">Total</span><strong class="payment-service-name">Assessoria MEI</strong></div>
+                                <div><span class="payment-total-label">Serviço</span><strong class="payment-service-name">Assessoria MEI</strong></div>
                                 <strong class="payment-amount" id="paymentAmount">R$ 59,90</strong>
                             </div>
-                            <label class="code-label" for="digitableLine"><i class="fas fa-barcode" aria-hidden="true"></i> Linha digitável</label>
+                            <div class="payment-method"><i class="fas fa-barcode" aria-hidden="true"></i><span>Boleto bancário</span></div>
+                            <label class="code-label" for="digitableLine"><i class="fas fa-barcode" aria-hidden="true"></i> Linha digitável do boleto bancário</label>
                             <div class="code-row">
-                                <input class="code-input" id="digitableLine" type="text" readonly placeholder="Aguardando emissão do boleto" aria-describedby="paymentHelp">
+                                <input class="code-input" id="digitableLine" type="text" readonly placeholder="A linha digitável do boleto aparecerá aqui após a emissão" aria-describedby="paymentHelp">
                                 <button class="copy-btn" id="copyBoletoBtn" type="button" onclick="copyDigitableLine()" disabled aria-disabled="true">
-                                    <i class="fas fa-copy" aria-hidden="true"></i> Copiar código
+                                    <i class="fas fa-copy" aria-hidden="true"></i> Copiar linha digitável
                                 </button>
                             </div>
                             <p class="copy-feedback" id="copyFeedback" role="status" aria-live="polite"></p>
-                            <p class="payment-help" id="paymentHelp">Cole o código no app do seu banco e confira o valor antes de pagar.</p>
-                            <div class="security-note"><i class="fas fa-shield-halved" aria-hidden="true"></i><span>Confira os dados exibidos pelo banco antes de concluir.</span></div>
+                            <p class="payment-help" id="paymentHelp">A linha digitável será exibida aqui após a emissão. Copie-a e cole no app do seu banco.</p>
                         </section>
+                        <aside class="payment-card" aria-labelledby="nextStepsTitle">
+                            <h3 id="nextStepsTitle">Como concluir o pagamento</h3>
+                            <ol class="steps-list">
+                                <li>Quando o boleto for emitido, clique em <strong>Copiar linha digitável</strong>.</li>
+                                <li>Cole o código no app ou internet banking e confira o valor.</li>
+                                <li>Conclua o pagamento no banco. Depois, clique em <strong>Já paguei</strong> para abrir a página de retorno.</li>
+                            </ol>
+                            <div class="security-note"><i class="fas fa-shield-halved" aria-hidden="true"></i><span>Confirme o valor e as informações apresentadas pelo seu banco antes de concluir o pagamento.</span></div>
+                        </aside>
                     </div>
-                    <div class="payment-note payment-disclosure">Serviço privado e opcional de assessoria. A abertura do MEI também pode ser feita gratuitamente pelos <a href="https://www.gov.br/pt-br/servicos/realizar-registro-como-microempreendedor-individual-mei" target="_blank" rel="noopener noreferrer">canais oficiais do gov.br</a>.</div>
+                    <div class="payment-note payment-disclosure">A abertura do MEI diretamente pelos canais oficiais do Governo Federal é gratuita. O valor acima é apenas o preço demonstrativo de um serviço privado opcional. <a href="https://www.gov.br/pt-br/servicos/realizar-registro-como-microempreendedor-individual-mei" target="_blank" rel="noopener noreferrer">Consulte o serviço oficial gratuito no gov.br</a>.</div>
                     <div id="apiNotice" class="payment-note" role="status" aria-live="polite" style="display:none"></div>
+                    <div class="payment-actions">
+                        <button type="button" class="btn btn-secondary payment-return-btn" id="paymentReturnBtn" onclick="redirectAfterPayment()" disabled aria-disabled="true"><i class="fas fa-check-circle" aria-hidden="true"></i> Já paguei</button>
+                    </div>
+                    <p class="payment-return-help">Este link de demonstração não confirma nem verifica o pagamento.</p>
                 </div>
             </div>
         </section>
@@ -1812,10 +1890,10 @@
                 });
             });
 
-            // Exibe os campos seguintes quando o CPF estiver válido.
+            // CPF validation and conditional fields
             const cpfInput = document.getElementById('cpf');
             if (cpfInput) {
-                cpfInput.addEventListener('input', debounce(handleCpfInput, DEBOUNCE_DELAY));
+                cpfInput.addEventListener('input', debounce(handleCPFInput, DEBOUNCE_DELAY));
             }
 
             // CEP lookup
@@ -1823,7 +1901,6 @@
             if (zipCodeInput) {
                 zipCodeInput.addEventListener('input', debounce(handleCEPLookup, CEP_LOOKUP_DELAY));
             }
-
         }
 
         // ===== MÁSCARAS =====
@@ -1852,26 +1929,36 @@
                 }
             });
         }
-
         function applyCPFMask(value) {
             return value
                 .replace(/\D/g, '')
+                .slice(0, 11)
                 .replace(/(\d{3})(\d)/, '$1.$2')
                 .replace(/(\d{3})(\d)/, '$1.$2')
                 .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
         }
-
-        function handleCpfInput() {
+        // ===== TRATAMENTO DO CPF =====
+        async function handleCPFInput() {
             const cpfInput = document.getElementById('cpf');
-            const followingFields = document.getElementById('conditionalFields');
-            if (!cpfInput || !followingFields) return;
+            if (!cpfInput) return;
 
-            if (validateCPF(cpfInput.value)) {
-                followingFields.classList.add('show');
-                validateField(cpfInput);
+            const loadingIndicator = document.getElementById('cpfLoadingIndicator');
+            const conditionalFields = document.getElementById('conditionalFields');
+            const cpfIsValid = validateCPF(cpfInput.value);
+
+            if (cpfIsValid) {
+                cpfInput.blur();
+                if (loadingIndicator) loadingIndicator.classList.add('show');
+                await new Promise(resolve => setTimeout(resolve, 1200));
+                if (loadingIndicator) loadingIndicator.classList.remove('show');
+                if (conditionalFields) conditionalFields.classList.add('show');
+                showSuccessNotification('CPF validado com sucesso!');
             } else {
-                followingFields.classList.remove('show');
+                if (conditionalFields) conditionalFields.classList.remove('show');
+                if (loadingIndicator) loadingIndicator.classList.remove('show');
             }
+
+            validateField(cpfInput);
         }
 
         function applyPhoneMask(value) {
@@ -2074,7 +2161,6 @@
 
             const reviewData = [
                 { label: 'Nome Completo', value: window.meiData.fullName },
-                { label: 'CPF', value: window.meiData.cpf },
                 { label: 'E-mail', value: window.meiData.email },
                 { label: 'Telefone', value: window.meiData.phone },
                 { label: 'CEP', value: window.meiData.zipCode },
@@ -2161,7 +2247,7 @@
                     cpf: () => validateCPF(value) || "Digite um CPF válido",
                     phone: () => validatePhone(value) || "Digite um telefone válido",
                     zipCode: () => validateZipCode(value) || "Digite um CEP válido",
-                    fullName: () => value.length >= 3 || "Digite um nome válido"
+                    fullName: () => value.length >= 3 || "Digite um nome válido",
                 };
                 
                 const validator = validators[fieldName];
@@ -2187,31 +2273,21 @@
             return isValid;
         }
 
-        function validateEmail(email) {
-            return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
+        function validateCPF(cpf) {
+            const digits = cpf.replace(/\D/g, '');
+            if (digits.length !== 11 || /^(\d)\1{10}$/.test(digits)) return false;
+            for (let length = 9; length <= 10; length++) {
+                let sum = 0;
+                for (let i = 0; i < length; i++) sum += Number(digits[i]) * ((length + 1) - i);
+                const remainder = (sum * 10) % 11;
+                const checkDigit = remainder === 10 ? 0 : remainder;
+                if (checkDigit !== Number(digits[length])) return false;
+            }
+            return true;
         }
 
-        function validateCPF(cpf) {
-            cpf = cpf.replace(/\D/g, '');
-            if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
-
-            let sum = 0;
-            for (let i = 0; i < 9; i++) {
-                sum += parseInt(cpf.charAt(i)) * (10 - i);
-            }
-            let remainder = 11 - (sum % 11);
-            if (remainder === 10 || remainder === 11) remainder = 0;
-            if (remainder !== parseInt(cpf.charAt(9))) return false;
-
-            sum = 0;
-            for (let i = 0; i < 10; i++) {
-                sum += parseInt(cpf.charAt(i)) * (11 - i);
-            }
-            remainder = 11 - (sum % 11);
-            if (remainder === 10 || remainder === 11) remainder = 0;
-            if (remainder !== parseInt(cpf.charAt(10))) return false;
-
-            return true;
+        function validateEmail(email) {
+            return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
         }
 
         function validatePhone(phone) {
@@ -2299,6 +2375,15 @@
             }
             notice.textContent = 'Linha digitável copiada. Cole-a no app do seu banco para concluir o pagamento.';
             notice.style.display = 'block';
+            const returnButton = document.getElementById('paymentReturnBtn');
+            returnButton.disabled = false;
+            returnButton.removeAttribute('aria-disabled');
+        }
+
+        function redirectAfterPayment() {
+            // URL demonstrativa. Troque pelo endereço do seu fluxo real de confirmação.
+            // O redirecionamento não comprova pagamento; valide o status via API/webhook no servidor.
+            window.location.assign('https://example.com/');
         }
 
         async function handleConfirmationSubmit(e) {
@@ -2325,7 +2410,7 @@
                 };
                 window.meiData = { ...window.meiData, ...declarationData };
 
-                // Abre a tela de pagamento; a emissão depende da integração com o backend.
+                // Sem redirecionamento e sem emissão de cobrança: abre a tela local de boleto.
                 goToStep(4);
                 
             } catch (error) {
