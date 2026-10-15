@@ -1384,8 +1384,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-row">
-                                    <div class="form-group">
+                                <div class="form-group">
                                         <label class="form-label required" for="email">E-mail</label>
                                         <div class="form-input-wrapper">
                                             <input type="email" id="email" name="email" class="form-input" required placeholder="seu@email.com">
@@ -1393,15 +1392,6 @@
                                         </div>
                                         <div class="error-message" id="emailError">Digite um e-mail válido</div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="form-label required" for="phone">Telefone</label>
-                                        <div class="form-input-wrapper">
-                                            <input type="tel" id="phone" name="phone" class="form-input" maxlength="15" required placeholder="(11) 99999-9999">
-                                            <i class="fas fa-check validation-icon"></i>
-                                        </div>
-                                        <div class="error-message" id="phoneError">Digite um telefone válido</div>
-                                    </div>
-                                </div>
                             </div>
 
                             <div class="button-group">
@@ -1848,7 +1838,6 @@
         function setupMasks() {
             const maskConfigs = [
                 { id: 'cpf', mask: applyCPFMask },
-                { id: 'phone', mask: applyPhoneMask },
                 { id: 'zipCode', mask: applyZipMask },
                 { id: 'socialCapital', mask: applyMoneyMask }
             ];
@@ -1900,13 +1889,6 @@
             }
 
             validateField(cpfInput);
-        }
-
-        function applyPhoneMask(value) {
-            return value
-                .replace(/\D/g, '')
-                .replace(/^(\d\d)(\d)/g, '($1) $2')
-                .replace(/(\d{5})(\d)/, '$1-$2');
         }
 
         function applyZipMask(value) {
@@ -2104,7 +2086,6 @@
             const reviewData = [
                 { label: 'Nome Completo', value: window.meiData.fullName },
                 { label: 'E-mail', value: window.meiData.email },
-                { label: 'Telefone', value: window.meiData.phone },
                 { label: 'CEP', value: window.meiData.zipCode },
                 { label: 'Endereço', value: window.meiData.address },
                 { label: 'Número', value: window.meiData.number },
@@ -2186,7 +2167,6 @@
                 const validators = {
                     email: () => validateEmail(value) || "Digite um e-mail válido",
                     cpf: () => validateCPF(value) || "Digite um CPF válido",
-                    phone: () => validatePhone(value) || "Digite um telefone válido",
                     zipCode: () => validateZipCode(value) || "Digite um CEP válido",
                     fullName: () => value.length >= 3 || "Digite um nome válido",
                 };
@@ -2229,10 +2209,6 @@
 
         function validateEmail(email) {
             return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
-        }
-
-        function validatePhone(phone) {
-            return /^\(\d{2}\) \d{5}-\d{4}$/.test(phone);
         }
 
         function validateZipCode(zipCode) {
