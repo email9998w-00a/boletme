@@ -968,20 +968,6 @@
             border-radius: 20px; font-size: 12px; font-weight: 600;
             color: #075985; background: #e0f2fe; border: 1px solid #7dd3fc;
         }
-        .payment-panel { padding: 28px 32px 32px; }
-        .payment-status { display:flex; align-items:center; gap:10px; padding:14px 16px; margin-bottom:22px;
-            border:1px solid #fcd34d; border-radius:10px; background:#fffbeb; color:#92400e; font-weight:600; }
-        .payment-grid { display:grid; grid-template-columns: 1.2fr .8fr; gap:20px; }
-        .payment-card { border:1px solid var(--gray-200); border-radius:12px; padding:22px; background:#fff; }
-        .payment-card h2, .payment-card h3 { color:var(--gray-900); margin-bottom:12px; }
-        .payment-amount { font-size:30px; font-weight:700; color:var(--primary-color); margin:8px 0 4px; }
-        .payment-meta { color:var(--gray-600); font-size:14px; }
-        .payment-note { margin-top:16px; padding:14px 16px; border-left:4px solid var(--primary-color);
-            background:var(--primary-light); border-radius:4px 8px 8px 4px; color:var(--gray-700); font-size:14px; }
-        .payment-actions { display:flex; gap:12px; margin-top:24px; }
-        .payment-actions { justify-content:flex-end; }
-        .payment-actions .btn { flex:0 1 360px; }
-        @media(max-width:700px) { .payment-panel {padding:20px;} .payment-grid {grid-template-columns:1fr;} .payment-actions {flex-direction:column;} .private-service-badge {font-size:10px;padding:6px 8px;} }
 
         /* ===== TELA INDEPENDENTE DE PAGAMENTO ===== */
         .payment-screen.active { display:block !important; position:fixed; inset:0; z-index:2500; width:100vw; height:100vh;
@@ -1014,8 +1000,8 @@
 
         /* ===== CHECKOUT BOLETO ===== */
         .payment-panel { padding: 28px 32px 32px; }
-        .payment-status { display:flex; align-items:flex-start; gap:11px; padding:13px 15px; margin-bottom:18px;
-            border:1px solid var(--gray-200); border-radius:10px; background:var(--gray-50); color:var(--gray-700); font-weight:500; line-height:1.5; }
+        .payment-status { display:flex; align-items:flex-start; gap:11px; padding:14px 16px; margin-bottom:22px;
+            border:1px solid #fcd34d; border-radius:10px; background:#fffbeb; color:#854d0e; font-weight:600; }
         .payment-grid { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(250px,.75fr); gap:20px; align-items:start; }
         .payment-card { border:1px solid var(--gray-200); border-radius:14px; padding:22px; background:#fff; box-shadow:var(--shadow-sm); }
         .payment-card h2,.payment-card h3 { color:var(--gray-900); margin-bottom:8px; }
@@ -1187,14 +1173,19 @@
             opacity: 1;
             color: var(--error-color);
         }
-        /* ===== REFINO MOBILE DO CHECKOUT ===== */
+        /* ===== CHECKOUT ENXUTO E DIRETO ===== */
         .payment-kind-badge { display:inline-flex; align-items:center; gap:8px; margin-bottom:10px; padding:7px 11px;
             border-radius:999px; background:#e8efff; color:#1e40af; font-size:11px; line-height:1.2; font-weight:800; letter-spacing:.045em; }
+        .payment-status { line-height:1.5; font-size:14px; font-weight:500; background:var(--gray-50); border-color:var(--gray-200); color:var(--gray-700); }
+        .payment-page-title p { line-height:1.5; }
+        .payment-grid { grid-template-columns:minmax(0, 760px); }
+        .payment-order-card { width:100%; }
+        .payment-card-intro { margin-bottom:14px; }
         .code-label { display:flex; align-items:center; gap:8px; color:#173b8f; font-size:14px; font-weight:750; }
         .code-label i { font-size:17px; }
         .payment-method { background:#e8efff; color:#173b8f; }
-        .payment-status { line-height:1.5; font-size:14px; }
-        .payment-page-title p { line-height:1.5; }
+        .payment-disclosure { color:var(--gray-500); background:transparent; border-left:0; padding:0; font-size:12px; }
+        .payment-actions, .payment-return-help { display:none; }
         @media (max-width: 640px) {
             .payment-screen.active { height:100vh; height:100dvh; min-height:100vh; width:100vw; max-width:100vw; left:0; right:0; box-sizing:border-box; }
             html.payment-open, body.payment-open { overflow-x:hidden; }
@@ -1207,13 +1198,11 @@
             .payment-page-title { margin-bottom:16px; }
             .payment-page-title h1 { font-size:22px; line-height:1.2; }
             .payment-page-title p { font-size:14px; }
-            .payment-secure-label { white-space:normal; font-size:12px; padding-top:10px; }
             .payment-panel { padding:0; }
             .payment-status { gap:9px; padding:12px; margin-bottom:14px; font-size:13px; }
             .payment-grid { grid-template-columns:minmax(0,1fr); gap:12px; }
             .payment-card { min-width:0; padding:16px; border-radius:12px; }
-            .payment-card h2,.payment-card h3 { font-size:17px; }
-            .payment-card-intro { font-size:13px; margin-bottom:14px; }
+            .payment-card h2 { font-size:17px; }
             .payment-total { align-items:flex-end; gap:8px; padding:14px 0; }
             .payment-amount { font-size:25px; }
             .payment-method { margin-top:14px; font-size:12px; }
@@ -1223,12 +1212,8 @@
             .copy-btn { width:100%; min-height:52px; white-space:normal; font-size:14px; }
             .payment-help { font-size:12px; line-height:1.5; }
             .copy-feedback { font-size:13px; line-height:1.4; }
-            .steps-list { font-size:13px; line-height:1.55; }
             .security-note { font-size:12px; }
-            .payment-note { font-size:12px; line-height:1.5; padding:12px; }
-            .payment-actions { display:block; margin-top:16px; }
-            .payment-actions .btn { width:100%; max-width:none; min-height:50px; }
-            .payment-return-help { text-align:center; line-height:1.45; }
+            .payment-disclosure { font-size:12px; line-height:1.5; padding:0; }
         }
         @media (max-width:360px) {
             .payment-screen-body { padding-left:10px; padding-right:10px; }
@@ -1254,7 +1239,6 @@
             
             <div class="security-indicators">
                 <div class="private-service-badge"><i class="fas fa-store"></i> Serviço privado</div>
-                
             </div>
         </div>
     </header>
@@ -1708,7 +1692,7 @@
                             <div class="checkbox-group">
                                 <input type="checkbox" id="feeAcknowledge" name="feeAcknowledge" class="checkbox-input" required>
                                 <label for="feeAcknowledge" class="checkbox-label">
-                                    Estou ciente de que <strong>R$ 59,90 é o preço de um serviço privado opcional</strong>, e não uma taxa governamental
+                                    Estou ciente de que <strong>R$ 59,90 é o valor do serviço privado de assessoria</strong>, e não uma taxa governamental
                                 </label>
                             </div>
                         </div>
@@ -1750,30 +1734,37 @@
                 <div class="payment-page-title">
                     <div>
                         <span class="payment-kind-badge"><i class="fas fa-barcode" aria-hidden="true"></i> BOLETO BANCÁRIO</span>
-                        <h1 id="paymentTitle">Pagamento por boleto</h1>
-                        <p>Confira o valor do serviço antes de continuar.</p>
+                        <h1 id="paymentTitle">Pague com boleto</h1>
+                        <p>Copie a linha digitável e finalize no app do seu banco.</p>
                     </div>
                 </div>
                 <div class="payment-panel">
                     <div class="payment-status" id="paymentStatus" role="status" aria-live="polite">
                         <i class="fas fa-circle-info" aria-hidden="true"></i>
-                        <span><strong>Boleto indisponível no momento.</strong> Nenhuma cobrança foi emitida por esta página.</span>
+                        <span>O boleto aparecerá aqui após a emissão.</span>
                     </div>
-                    <section class="payment-card payment-order-card" aria-labelledby="boletoCardTitle">
-                        <h2 id="boletoCardTitle">Resumo do pedido</h2>
-                        <p class="payment-card-intro">Serviço privado e opcional de assessoria.</p>
-                        <div class="payment-total">
-                            <div><span class="payment-total-label">Serviço</span><strong class="payment-service-name">Assessoria MEI</strong></div>
-                            <strong class="payment-amount" id="paymentAmount">R$ 59,90</strong>
-                        </div>
-                    </section>
-                    <div class="payment-note payment-disclosure">
-                        A abertura do MEI pelos canais oficiais do Governo Federal é gratuita. Esta assessoria é um serviço privado opcional.
-                        <a href="https://www.gov.br/pt-br/servicos/realizar-registro-como-microempreendedor-individual-mei" target="_blank" rel="noopener noreferrer">Consulte o serviço oficial no gov.br</a>.
+                    <div class="payment-grid">
+                        <section class="payment-card payment-order-card" aria-labelledby="boletoCardTitle">
+                            <h2 id="boletoCardTitle">Valor do serviço</h2>
+                            <p class="payment-card-intro">Assessoria MEI — serviço privado e opcional.</p>
+                            <div class="payment-total">
+                                <div><span class="payment-total-label">Total</span><strong class="payment-service-name">Assessoria MEI</strong></div>
+                                <strong class="payment-amount" id="paymentAmount">R$ 59,90</strong>
+                            </div>
+                            <label class="code-label" for="digitableLine"><i class="fas fa-barcode" aria-hidden="true"></i> Linha digitável</label>
+                            <div class="code-row">
+                                <input class="code-input" id="digitableLine" type="text" readonly placeholder="Aguardando emissão do boleto" aria-describedby="paymentHelp">
+                                <button class="copy-btn" id="copyBoletoBtn" type="button" onclick="copyDigitableLine()" disabled aria-disabled="true">
+                                    <i class="fas fa-copy" aria-hidden="true"></i> Copiar código
+                                </button>
+                            </div>
+                            <p class="copy-feedback" id="copyFeedback" role="status" aria-live="polite"></p>
+                            <p class="payment-help" id="paymentHelp">Cole o código no app do seu banco e confira o valor antes de pagar.</p>
+                            <div class="security-note"><i class="fas fa-shield-halved" aria-hidden="true"></i><span>Confira os dados exibidos pelo banco antes de concluir.</span></div>
+                        </section>
                     </div>
-                    <div class="payment-actions">
-                        <button type="button" class="btn btn-secondary" onclick="goToStep(3)"><i class="fas fa-arrow-left" aria-hidden="true"></i> Voltar à revisão</button>
-                    </div>
+                    <div class="payment-note payment-disclosure">Serviço privado e opcional de assessoria. A abertura do MEI também pode ser feita gratuitamente pelos <a href="https://www.gov.br/pt-br/servicos/realizar-registro-como-microempreendedor-individual-mei" target="_blank" rel="noopener noreferrer">canais oficiais do gov.br</a>.</div>
+                    <div id="apiNotice" class="payment-note" role="status" aria-live="polite" style="display:none"></div>
                 </div>
             </div>
         </section>
@@ -2407,6 +2398,46 @@
             throw new Error('API de boleto ainda não conectada.');
         }
 
+        function renderBoleto(boleto) {
+            if (!boleto || !boleto.digitableLine) {
+                throw new Error('A API não retornou a linha digitável do boleto.');
+            }
+            if (boleto.amountCents !== undefined && Number(boleto.amountCents) !== 5990) {
+                throw new Error('O valor retornado pela API não corresponde ao pedido.');
+            }
+            document.getElementById('digitableLine').value = boleto.digitableLine;
+            const copyButton = document.getElementById('copyBoletoBtn');
+            copyButton.disabled = false;
+            copyButton.removeAttribute('aria-disabled');
+            const status = document.getElementById('paymentStatus');
+            status.innerHTML = '<i class="fas fa-circle-check" aria-hidden="true"></i><span>Boleto emitido. Copie a linha digitável e confira os dados no app do seu banco antes de pagar.</span>';
+            status.style.background = 'var(--success-light)';
+            status.style.borderColor = 'var(--success-color)';
+            status.style.color = 'var(--success-color)';
+        }
+
+        async function copyDigitableLine() {
+            const input = document.getElementById('digitableLine');
+            const notice = document.getElementById('copyFeedback');
+            if (!input.value.trim()) {
+                notice.textContent = 'A linha digitável ficará disponível após a emissão do boleto.';
+                return;
+            }
+            try {
+                await navigator.clipboard.writeText(input.value);
+            } catch (error) {
+                input.focus(); input.select();
+                const copied = document.execCommand('copy');
+                if (!copied) {
+                    notice.textContent = 'Não foi possível copiar automaticamente. Selecione e copie a linha digitável.';
+                    notice.style.display = 'block';
+                    return;
+                }
+            }
+            notice.textContent = 'Linha digitável copiada. Cole-a no app do seu banco para concluir o pagamento.';
+            notice.style.display = 'block';
+        }
+
         async function handleConfirmationSubmit(e) {
             e.preventDefault();
             
@@ -2431,7 +2462,7 @@
                 };
                 window.meiData = { ...window.meiData, ...declarationData };
 
-                // Sem redirecionamento e sem emissão de cobrança: abre a tela local de boleto.
+                // Abre a tela de pagamento; a emissão depende da integração com o backend.
                 goToStep(4);
                 
             } catch (error) {
