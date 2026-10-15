@@ -1188,6 +1188,55 @@
             opacity: 1;
             color: var(--error-color);
         }
+        /* ===== REFINO MOBILE DO CHECKOUT ===== */
+        .payment-kind-badge { display:inline-flex; align-items:center; gap:8px; margin-bottom:10px; padding:7px 11px;
+            border-radius:999px; background:#e8efff; color:#1e40af; font-size:11px; line-height:1.2; font-weight:800; letter-spacing:.045em; }
+        .code-label { display:flex; align-items:center; gap:8px; color:#173b8f; font-size:14px; font-weight:750; }
+        .code-label i { font-size:17px; }
+        .payment-method { background:#e8efff; color:#173b8f; }
+        .payment-status { line-height:1.5; font-size:14px; }
+        .payment-page-title p { line-height:1.5; }
+        @media (max-width: 640px) {
+            .payment-screen.active { height:100vh; height:100dvh; min-height:100vh; width:100vw; max-width:100vw; left:0; right:0; box-sizing:border-box; }
+            html.payment-open, body.payment-open { overflow-x:hidden; }
+            .payment-screen-header-inner { display:flex; flex-wrap:wrap; min-height:0; padding:10px 14px; gap:8px; }
+            .payment-brand { flex:1 1 100%; }
+            .payment-header-meta { width:100%; justify-content:space-between; gap:8px; }
+            .payment-step-badge { font-size:11px; padding:7px 9px; }
+            .payment-header-back { font-size:12px; padding:8px 2px; }
+            .payment-screen-body { width:100%; padding:20px 14px calc(30px + env(safe-area-inset-bottom)); }
+            .payment-page-title { margin-bottom:16px; }
+            .payment-page-title h1 { font-size:22px; line-height:1.2; }
+            .payment-page-title p { font-size:14px; }
+            .payment-secure-label { white-space:normal; font-size:12px; padding-top:10px; }
+            .payment-panel { padding:0; }
+            .payment-status { gap:9px; padding:12px; margin-bottom:14px; font-size:13px; }
+            .payment-grid { grid-template-columns:minmax(0,1fr); gap:12px; }
+            .payment-card { min-width:0; padding:16px; border-radius:12px; }
+            .payment-card h2,.payment-card h3 { font-size:17px; }
+            .payment-card-intro { font-size:13px; margin-bottom:14px; }
+            .payment-total { align-items:flex-end; gap:8px; padding:14px 0; }
+            .payment-amount { font-size:25px; }
+            .payment-method { margin-top:14px; font-size:12px; }
+            .code-label { margin-top:16px; font-size:14px; }
+            .code-row { display:flex; flex-direction:column; gap:9px; }
+            .code-input { width:100%; min-height:50px; padding:12px; font-size:14px; }
+            .copy-btn { width:100%; min-height:52px; white-space:normal; font-size:14px; }
+            .payment-help { font-size:12px; line-height:1.5; }
+            .copy-feedback { font-size:13px; line-height:1.4; }
+            .steps-list { font-size:13px; line-height:1.55; }
+            .security-note { font-size:12px; }
+            .payment-note { font-size:12px; line-height:1.5; padding:12px; }
+            .payment-actions { display:block; margin-top:16px; }
+            .payment-actions .btn { width:100%; max-width:none; min-height:50px; }
+            .payment-return-help { text-align:center; line-height:1.45; }
+        }
+        @media (max-width:360px) {
+            .payment-screen-body { padding-left:10px; padding-right:10px; }
+            .payment-page-title h1 { font-size:20px; }
+            .payment-header-back { font-size:11px; }
+        }
+
     </style>
 </head>
 <body>
@@ -1700,7 +1749,7 @@
             </header>
             <div class="payment-screen-body">
                 <div class="payment-page-title">
-                    <div><h1 id="paymentTitle">Finalize com boleto</h1><p>Revise o valor e copie a linha digitável para pagar no seu banco.</p></div>
+                    <div><span class="payment-kind-badge"><i class="fas fa-barcode" aria-hidden="true"></i> PAGAMENTO VIA BOLETO BANCÁRIO</span><h1 id="paymentTitle">Pague com boleto bancário</h1><p>Copie a linha digitável e conclua o pagamento pelo app do seu banco.</p></div>
                     <div class="payment-secure-label"><i class="fas fa-clock" aria-hidden="true"></i> Emissão disponível após conectar a API</div>
                 </div>
                 <div class="payment-panel">
@@ -1717,9 +1766,9 @@
                                 <strong class="payment-amount" id="paymentAmount">R$ 59,90</strong>
                             </div>
                             <div class="payment-method"><i class="fas fa-barcode" aria-hidden="true"></i><span>Boleto bancário</span></div>
-                            <label class="code-label" for="digitableLine">Linha digitável</label>
+                            <label class="code-label" for="digitableLine"><i class="fas fa-barcode" aria-hidden="true"></i> Linha digitável do boleto bancário</label>
                             <div class="code-row">
-                                <input class="code-input" id="digitableLine" type="text" readonly placeholder="A linha digitável aparecerá aqui após a emissão" aria-describedby="paymentHelp">
+                                <input class="code-input" id="digitableLine" type="text" readonly placeholder="A linha digitável do boleto aparecerá aqui após a emissão" aria-describedby="paymentHelp">
                                 <button class="copy-btn" id="copyBoletoBtn" type="button" onclick="copyDigitableLine()" disabled aria-disabled="true">
                                     <i class="fas fa-copy" aria-hidden="true"></i> Copiar linha digitável
                                 </button>
@@ -2118,6 +2167,9 @@
         }
 
         function updateStepDisplay() {
+            const paymentOpen = currentStep === 4;
+            document.documentElement.classList.toggle('payment-open', paymentOpen);
+            document.body.classList.toggle('payment-open', paymentOpen);
             document.querySelectorAll('.step-content').forEach(content => {
                 content.classList.remove('active');
             });
