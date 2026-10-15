@@ -1173,6 +1173,17 @@
             opacity: 1;
             color: var(--error-color);
         }
+        /* ===== CLAREZA DE PREÇO E REDUÇÃO DE ATRITO ===== */
+        .early-disclosure { margin:0 0 18px; padding:14px 18px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:var(--border-radius-lg); color:var(--gray-700); }
+        .early-disclosure strong { color:var(--gray-900); }
+        .early-disclosure span { display:block; margin-top:3px; font-size:13px; line-height:1.5; }
+        .early-disclosure a { color:var(--primary-color); font-weight:600; }
+        .review-header { width:100%; border:0; font:inherit; text-align:left; }
+        .review-header:focus-visible { outline:2px solid var(--primary-color); outline-offset:-2px; }
+        .conditional-fields.show { opacity:1; transform:none; }
+        .error-message[role="alert"].show { padding:10px 12px; background:var(--error-light); border-radius:8px; }
+        @media(max-width:640px) { .early-disclosure { margin-bottom:14px; padding:12px 14px; } }
+
         /* ===== CHECKOUT ENXUTO E DIRETO ===== */
         .payment-kind-badge { display:inline-flex; align-items:center; gap:8px; margin-bottom:10px; padding:7px 11px;
             border-radius:999px; background:#e8efff; color:#1e40af; font-size:11px; line-height:1.2; font-weight:800; letter-spacing:.045em; }
@@ -1247,11 +1258,14 @@
     <div class="main-container">
         <!-- Conteúdo Principal -->
         <main class="main-content">
+            <section class="early-disclosure" aria-label="Informações do serviço">
+                <div><strong>Assessoria MEI — serviço privado e opcional</strong><span>Valor total: <strong>R$ 59,90</strong>. A abertura oficial também pode ser feita gratuitamente no <a href="https://www.gov.br/pt-br/servicos/realizar-registro-como-microempreendedor-individual-mei" target="_blank" rel="noopener noreferrer">gov.br</a>.</span></div>
+            </section>
             <!-- Seção de Progresso -->
             <div class="progress-section">
                 <div class="progress-header">
                     <h2 class="progress-title">Solicitação de assessoria MEI</h2>
-                    <p class="progress-subtitle">Acompanhe as etapas do serviço privado</p>
+                    <p class="progress-subtitle">4 etapas: dados, endereço, revisão e pagamento</p>
                 </div>
                 
                 <div class="progress-steps">
@@ -1270,6 +1284,10 @@
                         <div class="step-circle">3</div>
                         <div class="step-label">Revisão</div>
                     </div>
+                    <div class="step" data-step="4">
+                        <div class="step-circle">4</div>
+                        <div class="step-label">Pagamento</div>
+                    </div>
                 </div>
             </div>
 
@@ -1279,7 +1297,7 @@
                 <div class="step-content active" id="step1">
                     <div class="form-header">
                         <h1 class="form-title">Dados Pessoais</h1>
-                        <p class="form-subtitle">Informe seus dados pessoais para iniciar o processo de abertura do MEI</p>
+                        <p class="form-subtitle">Preencha os dados necessários para a assessoria. Você poderá revisar tudo antes de continuar.</p>
                     </div>
                     
                     <div class="form-content">
@@ -1311,16 +1329,13 @@
                                             <i class="fas fa-check validation-icon"></i>
                                         </div>
                                         <div class="error-message" id="rgError">Digite um RG válido</div>
-                                        <div class="loading-indicator" id="rgLoadingIndicator">
-                                            <div class="spinner"></div>
-                                            <span>Verificando documento...</span>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Campos Condicionais -->
-                            <div class="conditional-fields" id="conditionalFields">
+                            <div class="conditional-fields show" id="conditionalFields">
                                 <div class="info-section">
                                     <div class="info-section-header">
                                         <i class="fas fa-id-card info-section-icon"></i>
@@ -1444,7 +1459,7 @@
                                 <div class="error-message" id="zipCodeError">Digite um CEP válido</div>
                             </div>
 
-                            <div class="conditional-fields" id="addressFields">
+                            <div class="conditional-fields show" id="addressFields">
                                 <div class="info-section">
                                     <div class="info-section-header">
                                         <i class="fas fa-map-marker-alt info-section-icon"></i>
@@ -1453,7 +1468,7 @@
                                     <div class="info-section-content">
                                         <div class="form-group">
                                             <label class="form-label required" for="address">Logradouro</label>
-                                            <input type="text" id="address" name="address" class="form-input" required readonly>
+                                            <input type="text" id="address" name="address" class="form-input" required autocomplete="street-address">
                                             <div class="error-message" id="addressError">Digite o endereço</div>
                                         </div>
 
@@ -1474,14 +1489,14 @@
 
                                         <div class="form-group">
                                             <label class="form-label required" for="neighborhood">Bairro</label>
-                                            <input type="text" id="neighborhood" name="neighborhood" class="form-input" required readonly>
+                                            <input type="text" id="neighborhood" name="neighborhood" class="form-input" required autocomplete="address-level3">
                                             <div class="error-message" id="neighborhoodError">Digite o bairro</div>
                                         </div>
 
                                         <div class="form-row">
                                             <div class="form-group">
                                                 <label class="form-label required" for="city">Cidade</label>
-                                                <input type="text" id="city" name="city" class="form-input" required readonly>
+                                                <input type="text" id="city" name="city" class="form-input" required autocomplete="address-level2">
                                                 <div class="error-message" id="cityError">Digite a cidade</div>
                                             </div>
                                             <div class="form-group">
@@ -1606,13 +1621,13 @@
                     <div class="form-content">
                         <!-- Seção de Revisão de Dados -->
                         <div class="review-section">
-                            <div class="review-header" onclick="toggleReviewSection()">
+                            <button class="review-header" type="button" onclick="toggleReviewSection()" aria-expanded="false" aria-controls="reviewContent">
                                 <div class="review-header-left">
                                     <i class="fas fa-clipboard-list review-header-icon"></i>
                                     <span class="review-header-text">Revisar Dados Informados</span>
                                 </div>
                                 <i class="fas fa-chevron-down review-header-arrow"></i>
-                            </div>
+                            </button>
                             <div class="review-content" id="reviewContent">
                                 <div class="review-content-inner">
                                     <div class="review-grid" id="reviewGrid">
@@ -1639,20 +1654,10 @@
                                 </div>
 
                                 <p class="fee-notice-text">
-                                    <strong>Escopo informado do serviço:</strong>
+                                    <strong>O serviço inclui:</strong> apoio administrativo no preenchimento e revisão das informações. O protocolo e a emissão dos documentos oficiais são feitos nos canais governamentais.
                                 </p>
-                                
-                                <ul class="fee-benefits-list">
-                                    <li>Processamento completo da documentação</li>
-                                    <li>Orientação e apoio administrativo durante o preenchimento</li>
-                                    <li>Revisão das informações fornecidas pelo cliente</li>
-                                    <li>O protocolo e a emissão dos documentos oficiais dependem dos canais governamentais</li>
-                                    <li>Suporte especializado durante todo o processo</li>
-                                    <li>Entrega dos documentos digitais por e-mail</li>
-                                </ul>
-
                                 <p class="fee-notice-text">
-                                    <strong>Importante:</strong> A contratação deste serviço privado não é obrigatória para abrir um MEI. Confira o escopo, as condições comerciais e a política de cancelamento da empresa antes de pagar.
+                                    A contratação é opcional. Consulte as condições comerciais e a política de cancelamento antes de pagar.
                                 </p>
                             </div>
                         </div>
@@ -1663,9 +1668,7 @@
                                 Declaração e Termos
                             </h3>
                             <p class="declaration-text">
-                                Ao prosseguir, você declara que leu e aceita os Termos de Uso e a Política de Privacidade, 
-                                confirma que as informações fornecidas são verdadeiras e autoriza o processamento dos seus 
-                                dados conforme a Lei Geral de Proteção de Dados (LGPD).
+                                Revise os dados e as condições do serviço. As informações serão tratadas para prestar a assessoria, conforme a Política de Privacidade.
                             </p>
                             
                             <div class="checkbox-group">
@@ -1683,13 +1686,6 @@
                             </div>
                             
                             <div class="checkbox-group">
-                                <input type="checkbox" id="lgpdConsent" name="lgpdConsent" class="checkbox-input" required>
-                                <label for="lgpdConsent" class="checkbox-label">
-                                    Autorizo o processamento dos meus dados pessoais conforme a <strong>LGPD</strong>
-                                </label>
-                            </div>
-
-                            <div class="checkbox-group">
                                 <input type="checkbox" id="feeAcknowledge" name="feeAcknowledge" class="checkbox-input" required>
                                 <label for="feeAcknowledge" class="checkbox-label">
                                     Estou ciente de que <strong>R$ 59,90 é o valor do serviço privado de assessoria</strong>, e não uma taxa governamental
@@ -1705,9 +1701,10 @@
                                 </button>
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-credit-card"></i>
-                                    Continuar para pagamento (R$ 59,90)
+                                    Continuar para pagamento — R$ 59,90
                                 </button>
                             </div>
+                            <p id="confirmationError" class="error-message" role="alert" aria-live="polite"></p>
                         </form>
                     </div>
                 </div>
@@ -1741,7 +1738,7 @@
                 <div class="payment-panel">
                     <div class="payment-status" id="paymentStatus" role="status" aria-live="polite">
                         <i class="fas fa-circle-info" aria-hidden="true"></i>
-                        <span>O boleto aparecerá aqui após a emissão.</span>
+                        <span>A emissão do boleto ainda não está disponível. Nenhuma cobrança foi gerada.</span>
                     </div>
                     <div class="payment-grid">
                         <section class="payment-card payment-order-card" aria-labelledby="boletoCardTitle">
@@ -1759,7 +1756,7 @@
                                 </button>
                             </div>
                             <p class="copy-feedback" id="copyFeedback" role="status" aria-live="polite"></p>
-                            <p class="payment-help" id="paymentHelp">Cole o código no app do seu banco e confira o valor antes de pagar.</p>
+                            <p class="payment-help" id="paymentHelp">Quando a emissão estiver disponível, copie o código e cole no app do seu banco.</p>
                             <div class="security-note"><i class="fas fa-shield-halved" aria-hidden="true"></i><span>Confira os dados exibidos pelo banco antes de concluir.</span></div>
                         </section>
                     </div>
@@ -1902,18 +1899,12 @@
                 zipCodeInput.addEventListener('input', debounce(handleCEPLookup, CEP_LOOKUP_DELAY));
             }
 
-            // RG input
-            const rgInput = document.getElementById('rg');
-            if (rgInput) {
-                rgInput.addEventListener('input', debounce(handleRgInput, DEBOUNCE_DELAY));
-            }
         }
 
         // ===== MÁSCARAS =====
         function setupMasks() {
             const maskConfigs = [
                 { id: 'cpf', mask: applyCPFMask },
-                { id: 'rg', mask: applyRGMask },
                 { id: 'phone', mask: applyPhoneMask },
                 { id: 'zipCode', mask: applyZipMask },
                 { id: 'socialCapital', mask: applyMoneyMask }
@@ -1978,48 +1969,7 @@
             return 'R$ ' + value;
         }
 
-        // ===== TRATAMENTO DO RG =====
-        async function handleRgInput() {
-            const rgInput = document.getElementById('rg');
-            if (!rgInput) return;
-            
-            const rgValue = rgInput.value;
-            const loadingIndicator = document.getElementById('rgLoadingIndicator');
-            const conditionalFields = document.getElementById('conditionalFields');
-
-            if (validateRGFormat(rgValue)) {
-                rgInput.blur();
-                
-                if (loadingIndicator) {
-                    loadingIndicator.classList.add('show');
-                }
-                
-                await new Promise(resolve => setTimeout(resolve, 1200));
-                
-                if (loadingIndicator) {
-                    loadingIndicator.classList.remove('show');
-                }
-                
-                if (conditionalFields) {
-                    conditionalFields.classList.add('show');
-                }
-
-                showSuccessNotification('Documento verificado com sucesso!');
-            } else {
-                if (conditionalFields) {
-                    conditionalFields.classList.remove('show');
-                }
-                if (loadingIndicator) {
-                    loadingIndicator.classList.remove('show');
-                }
-            }
-            
-            validateField(rgInput);
-        }
-
-        function validateRGFormat(rg) {
-            return /^\d{2}\.\d{3}\.\d{3}-\d$/.test(rg);
-        }
+        // O RG é informado pelo usuário; não há consulta ou verificação externa neste formulário.
 
         // ===== BUSCA DE CEP =====
         async function handleCEPLookup() {
@@ -2066,7 +2016,13 @@
                     }
                 } catch (error) {
                     console.error('Erro ao buscar CEP:', error);
-                    showCEPError();
+                    const errorEl = document.getElementById('zipCodeError');
+                    if (errorEl) {
+                        errorEl.textContent = 'Não foi possível buscar o endereço agora. Você pode preenchê-lo manualmente.';
+                        errorEl.classList.add('show');
+                    }
+                    if (addressFields) addressFields.classList.add('show');
+                    addressFilled = false;
                 } finally {
                     if (loadingIndicator) {
                         loadingIndicator.classList.remove('show');
@@ -2075,7 +2031,7 @@
                 }
             } else {
                 if (addressFields) {
-                    addressFields.classList.remove('show');
+                    addressFields.classList.add('show');
                 }
                 if (loadingIndicator) {
                     loadingIndicator.classList.remove('show');
@@ -2099,11 +2055,6 @@
                 if (field) field.value = value;
             });
             
-            const numberField = document.getElementById('number');
-            if (numberField) {
-                setTimeout(() => numberField.focus(), 100);
-            }
-            
             addressFilled = true;
         }
 
@@ -2114,12 +2065,13 @@
             
             if (zipCodeInput) zipCodeInput.classList.add('error');
             if (errorEl) {
-                errorEl.textContent = 'CEP não encontrado. Verifique e tente novamente.';
+                errorEl.textContent = 'Não foi possível localizar o CEP. Confira o número ou preencha o endereço manualmente.';
                 errorEl.classList.add('show');
             }
             if (addressFields) {
-                addressFields.classList.remove('show');
+                addressFields.classList.add('show');
             }
+            addressFilled = false;
         }
 
         // ===== NAVEGAÇÃO =====
@@ -2133,9 +2085,12 @@
                     updateReviewData();
                 }
                 
-                if (window.innerWidth < 768) {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                const heading = currentStepEl?.querySelector('h1');
+                if (heading) {
+                    heading.setAttribute('tabindex', '-1');
+                    heading.focus({ preventScroll: true });
                 }
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
 
@@ -2186,8 +2141,10 @@
             const content = document.getElementById('reviewContent');
             
             if (header && content) {
-                header.classList.toggle('expanded');
-                content.classList.toggle('expanded');
+                const expanded = !content.classList.contains('expanded');
+                header.classList.toggle('expanded', expanded);
+                content.classList.toggle('expanded', expanded);
+                header.setAttribute('aria-expanded', String(expanded));
                 
                 if (content.classList.contains('expanded')) {
                     updateReviewData();
@@ -2221,12 +2178,20 @@
                 { label: 'Capital Social', value: window.meiData.socialCapital }
             ];
 
-            reviewGrid.innerHTML = reviewData.map(item => `
-                <div class="review-item">
-                    <div class="review-item-label">${item.label}</div>
-                    <div class="review-item-value ${!item.value || item.value === 'Não informado' ? 'empty' : ''}">${item.value || '-'}</div>
-                </div>
-            `).join('');
+            reviewGrid.replaceChildren();
+            reviewData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'review-item';
+                const label = document.createElement('div');
+                label.className = 'review-item-label';
+                label.textContent = item.label;
+                const value = document.createElement('div');
+                const displayValue = item.value || '-';
+                value.className = `review-item-value${!item.value || item.value === 'Não informado' ? ' empty' : ''}`;
+                value.textContent = displayValue;
+                card.append(label, value);
+                reviewGrid.appendChild(card);
+            });
         }
 
         // ===== VALIDAÇÃO =====
@@ -2242,19 +2207,6 @@
                     isValid = false;
                 }
             });
-
-            if (currentStep === 2 && !addressFilled) {
-                isValid = false;
-                const zipCodeInput = document.getElementById('zipCode');
-                if (zipCodeInput && !zipCodeInput.classList.contains('error')) {
-                    zipCodeInput.classList.add('error');
-                    const errorEl = document.getElementById('zipCodeError');
-                    if (errorEl) {
-                        errorEl.textContent = 'Digite um CEP válido para continuar';
-                        errorEl.classList.add('show');
-                    }
-                }
-            }
 
             if (currentStep === 3) {
                 const checkboxes = currentStepEl.querySelectorAll('input[type="checkbox"][required]');
@@ -2290,7 +2242,6 @@
                 const validators = {
                     email: () => validateEmail(value) || "Digite um e-mail válido",
                     cpf: () => validateCPF(value) || "Digite um CPF válido",
-                    rg: () => validateRG(value) || "Digite um RG válido",
                     phone: () => validatePhone(value) || "Digite um telefone válido",
                     zipCode: () => validateZipCode(value) || "Digite um CEP válido",
                     fullName: () => value.length >= 3 || "Digite um nome válido",
@@ -2321,7 +2272,7 @@
         }
 
         function validateEmail(email) {
-            return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
+            return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
         }
 
         function validateCPF(cpf) {
@@ -2347,12 +2298,8 @@
             return true;
         }
 
-        function validateRG(rg) {
-            return validateRGFormat(rg);
-        }
-
         function validatePhone(phone) {
-            return /^\(\d{2}\) \d{5}-\d{4}$/.test(phone);
+            return /^\(\d{2}\) \d{4,5}-\d{4}$/.test(phone);
         }
 
         function validateZipCode(zipCode) {
@@ -2420,7 +2367,8 @@
             const input = document.getElementById('digitableLine');
             const notice = document.getElementById('copyFeedback');
             if (!input.value.trim()) {
-                notice.textContent = 'A linha digitável ficará disponível após a emissão do boleto.';
+                notice.textContent = 'A emissão do boleto ainda não está disponível.';
+                notice.style.display = 'block';
                 return;
             }
             try {
@@ -2434,7 +2382,7 @@
                     return;
                 }
             }
-            notice.textContent = 'Linha digitável copiada. Cole-a no app do seu banco para concluir o pagamento.';
+            notice.textContent = 'Código copiado. Cole-o no app do seu banco para concluir o pagamento.';
             notice.style.display = 'block';
         }
 
@@ -2442,9 +2390,15 @@
             e.preventDefault();
             
             if (!validateCurrentStep()) {
-                alert('Por favor, aceite todos os termos para continuar.');
+                const error = document.getElementById('confirmationError');
+                if (error) {
+                    error.textContent = 'Confira os campos obrigatórios e marque as confirmações para continuar.';
+                    error.classList.add('show');
+                }
                 return;
             }
+            const confirmationError = document.getElementById('confirmationError');
+            if (confirmationError) confirmationError.classList.remove('show');
 
             const submitBtn = e.target.querySelector('button[type="submit"]');
             const loadingOverlay = document.getElementById('loadingOverlay');
@@ -2456,7 +2410,6 @@
                 const declarationData = {
                     termsAccept: document.getElementById('termsAccept')?.checked,
                     dataAccuracy: document.getElementById('dataAccuracy')?.checked,
-                    lgpdConsent: document.getElementById('lgpdConsent')?.checked,
                     feeAcknowledge: document.getElementById('feeAcknowledge')?.checked,
                     submissionDate: new Date().toISOString()
                 };
@@ -2467,7 +2420,11 @@
                 
             } catch (error) {
                 console.error('Erro:', error);
-                alert('Erro ao processar solicitação. Tente novamente.');
+                const feedback = document.getElementById('confirmationError');
+                if (feedback) {
+                    feedback.textContent = 'Não foi possível continuar agora. Tente novamente.';
+                    feedback.classList.add('show');
+                }
             } finally {
                 if (submitBtn) submitBtn.classList.remove('btn-loading');
                 if (loadingOverlay) loadingOverlay.style.display = 'none';
