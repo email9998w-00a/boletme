@@ -1539,24 +1539,6 @@
                                                 </select>
                                                 <div class="error-message" id="primaryActivityError">Selecione a atividade principal</div>
                                             </div>
-
-                                            <div class="form-group">
-                                                <label class="form-label" for="secondaryActivity">Atividade Secundária</label>
-                                                <select id="secondaryActivity" name="secondaryActivity" class="form-input form-select">
-                                                    <option value="">Atividade secundária (opcional)</option>
-                                                    <option value="Comércio de roupas e acessórios">Comércio de roupas e acessórios</option>
-                                                    <option value="Serviços de beleza e estética">Serviços de beleza e estética</option>
-                                                    <option value="Alimentação e bebidas">Alimentação e bebidas</option>
-                                                    <option value="Serviços de informática">Serviços de informática</option>
-                                                    <option value="Consultoria e assessoria">Consultoria e assessoria</option>
-                                                    <option value="Serviços de limpeza">Serviços de limpeza</option>
-                                                    <option value="Artesanato">Artesanato</option>
-                                                    <option value="Serviços de manutenção">Serviços de manutenção</option>
-                                                    <option value="Transporte">Transporte</option>
-                                                    <option value="Educação e treinamento">Educação e treinamento</option>
-                                                    <option value="Outros">Outros</option>
-                                                </select>
-                                            </div>
                                         </div>
 
                                         <div class="form-row">
@@ -2022,11 +2004,6 @@
                 if (field) field.value = value;
             });
             
-            const numberField = document.getElementById('number');
-            if (numberField) {
-                setTimeout(() => numberField.focus(), 100);
-            }
-            
             addressFilled = true;
         }
 
@@ -2136,7 +2113,6 @@
                 { label: 'Cidade', value: window.meiData.city },
                 { label: 'Estado', value: window.meiData.state },
                 { label: 'Atividade Principal', value: window.meiData.primaryActivity },
-                { label: 'Atividade Secundária', value: window.meiData.secondaryActivity || 'Não informado' },
                 { label: 'Nome Fantasia', value: window.meiData.tradeName || 'Não informado' },
                 { label: 'Capital Social', value: window.meiData.socialCapital }
             ];
