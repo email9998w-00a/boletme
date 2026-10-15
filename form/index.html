@@ -977,10 +977,6 @@
         .payment-card h2, .payment-card h3 { color:var(--gray-900); margin-bottom:12px; }
         .payment-amount { font-size:30px; font-weight:700; color:var(--primary-color); margin:8px 0 4px; }
         .payment-meta { color:var(--gray-600); font-size:14px; }
-        .boleto-placeholder { min-height:124px; display:flex; flex-direction:column; align-items:center; justify-content:center;
-            gap:8px; margin-top:16px; padding:18px; text-align:center; border:1px dashed var(--gray-300);
-            border-radius:10px; background:var(--gray-50); color:var(--gray-600); }
-        .boleto-placeholder i { font-size:26px; color:var(--gray-400); }
         .payment-note { margin-top:16px; padding:14px 16px; border-left:4px solid var(--primary-color);
             background:var(--primary-light); border-radius:4px 8px 8px 4px; color:var(--gray-700); font-size:14px; }
         .payment-actions { display:flex; gap:12px; margin-top:24px; }
@@ -1027,25 +1023,24 @@
         .payment-card-intro { color:var(--gray-600); font-size:14px; margin-bottom:18px; }
         .payment-total { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:16px 0;
             border-top:1px solid var(--gray-200); border-bottom:1px solid var(--gray-200); }
-        .payment-total-label { color:var(--gray-600); font-size:14px; }
+        .payment-total-label { display:block; color:var(--gray-500); font-size:12px; margin-bottom:5px; }
+        .payment-service-name { display:block; color:var(--gray-800); font-size:15px; }
         .payment-amount { font-size:28px; font-weight:750; color:var(--gray-900); white-space:nowrap; }
-        .payment-facts { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:18px 0; }
-        .payment-fact-label { display:block; color:var(--gray-500); font-size:12px; margin-bottom:4px; }
-        .payment-fact-value { color:var(--gray-800); font-size:14px; font-weight:600; overflow-wrap:anywhere; }
+        .payment-method { display:inline-flex; align-items:center; gap:9px; margin:18px 0 2px; padding:9px 12px;
+            border-radius:8px; background:var(--gray-50); color:var(--gray-700); font-size:13px; font-weight:600; }
+        .payment-method i { color:var(--primary-color); }
+        .payment-help { margin-top:9px; color:var(--gray-500); font-size:12px; line-height:1.5; }
+        .payment-disclosure { margin-top:20px; }
         .code-label { display:block; font-size:13px; font-weight:650; color:var(--gray-700); margin:18px 0 7px; }
         .code-row { display:flex; gap:8px; }
         .code-input { min-width:0; flex:1; padding:12px; border:1px solid var(--gray-300); border-radius:8px;
             background:var(--gray-50); color:var(--gray-800); font:500 13px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace; }
-        .copy-btn { min-height:46px; padding:10px 14px; border:1px solid var(--primary-color); border-radius:8px;
-            color:var(--primary-color); background:#fff; font-weight:650; cursor:pointer; display:inline-flex; align-items:center; gap:8px; white-space:nowrap; }
-        .copy-btn:hover:not(:disabled) { background:var(--primary-light); }
+        .copy-btn { min-height:48px; padding:11px 16px; border:1px solid var(--primary-color); border-radius:8px;
+            color:#fff; background:var(--primary-color); font-weight:700; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; white-space:nowrap; transition:var(--transition-fast); }
+        .copy-btn:hover:not(:disabled) { background:var(--primary-hover); }
+        .copy-feedback { min-height:20px; margin:8px 0 0; color:var(--success-color); font-size:13px; font-weight:600; }
+        .payment-return-help { margin:12px 0 0; text-align:right; color:var(--gray-500); font-size:12px; }
         .copy-btn:disabled,.btn:disabled { cursor:not-allowed; opacity:.55; transform:none; box-shadow:none; }
-        .barcode-stage { margin-top:14px; border:1px solid var(--gray-200); border-radius:10px; padding:16px; text-align:center; background:#fff; }
-        .barcode-visual { width:min(100%,390px); height:78px; margin:0 auto 10px; opacity:.48;
-            background:repeating-linear-gradient(90deg,#111 0 2px,transparent 2px 4px,#111 4px 5px,transparent 5px 8px,#111 8px 12px,transparent 12px 14px,#111 14px 15px,transparent 15px 19px); }
-        .barcode-image { display:block; max-width:100%; height:auto; max-height:110px; margin:0 auto 10px; object-fit:contain; }
-        .barcode-image[hidden], .barcode-visual[hidden] { display:none; }
-        .barcode-caption { color:var(--gray-500); font-size:12px; }
         .steps-list { padding-left:20px; margin:14px 0 0; color:var(--gray-700); font-size:14px; line-height:1.65; }
         .steps-list li+li { margin-top:10px; }
         .security-note { display:flex; gap:10px; margin-top:16px; padding:13px; border-radius:9px; background:var(--gray-50); color:var(--gray-600); font-size:13px; line-height:1.5; }
@@ -1059,7 +1054,6 @@
             .payment-panel { padding:18px; }
             .payment-card { padding:18px; }
             .payment-actions { flex-direction:column-reverse; }
-            .payment-facts { grid-template-columns:1fr; }
             .code-row { flex-direction:column; }
             .copy-btn { justify-content:center; }
         }
@@ -1690,75 +1684,68 @@
             </div>
         </main>
 
-                <!-- Tela completa de checkout; independente do formulário e da sidebar. -->
-                <section class="step-content payment-screen" id="step4" aria-labelledby="paymentTitle">
-                    <header class="payment-screen-header">
-                        <div class="payment-screen-header-inner">
-                            <div class="payment-brand">
-                                <span class="payment-brand-icon"><i class="fas fa-briefcase" aria-hidden="true"></i></span>
-                                <span>Assessoria MEI<small>Serviço privado</small></span>
-                            </div>
-                            <div class="payment-header-meta">
-                                <span class="payment-step-badge">Etapa 4 de 4</span>
-                                <button class="payment-header-back" type="button" onclick="goToStep(3)"><i class="fas fa-arrow-left" aria-hidden="true"></i> Voltar à revisão</button>
-                            </div>
-                        </div>
-                    </header>
-                    <div class="payment-screen-body">
-                        <div class="payment-page-title">
-                            <div><h1 id="paymentTitle">Pagamento por boleto</h1><p>Confira os dados do prestador e do serviço antes de pagar.</p></div>
-                            <div class="payment-secure-label"><i class="fas fa-clock" aria-hidden="true"></i> Integração com o provedor pendente</div>
-                        </div>
-                        <div class="payment-panel">
-                        <div class="payment-status" id="paymentStatus" role="status" aria-live="polite">
-                            <i class="fas fa-circle-info" aria-hidden="true"></i>
-                            <span>Ambiente de demonstração: a emissão ainda não está conectada. Nenhum pagamento será iniciado.</span>
-                        </div>
-                        <div class="payment-grid">
-                            <section class="payment-card" aria-labelledby="boletoCardTitle">
-                                <h2 id="boletoCardTitle"><i class="fas fa-receipt" aria-hidden="true"></i> Resumo do pagamento</h2>
-                                <p class="payment-card-intro">Serviço privado e opcional de assessoria. Confira os dados do beneficiário quando o boleto for emitido.</p>
-                                <div class="payment-total">
-                                    <span class="payment-total-label">Valor do serviço</span>
-                                    <strong class="payment-amount" id="paymentAmount">R$ 59,90</strong>
-                                </div>
-                                <div class="payment-facts">
-                                    <div><span class="payment-fact-label">Beneficiário</span><span class="payment-fact-value" id="paymentBeneficiary">[Nome da empresa prestadora]</span></div>
-                                    <div><span class="payment-fact-label">Vencimento</span><span class="payment-fact-value" id="boletoDueDate">Será informado na emissão</span></div>
-                                    <div><span class="payment-fact-label">Identificação</span><span class="payment-fact-value" id="boletoReference">Aguardando emissão</span></div>
-                                    <div><span class="payment-fact-label">Forma de pagamento</span><span class="payment-fact-value">Boleto bancário</span></div>
-                                </div>
-                                <label class="code-label" for="digitableLine">Linha digitável</label>
-                                <div class="code-row">
-                                    <input class="code-input" id="digitableLine" type="text" readonly value="Disponível após gerar o boleto" aria-describedby="barcodeCaption">
-                                    <button class="copy-btn" id="copyBoletoBtn" type="button" onclick="copyDigitableLine()" disabled aria-disabled="true">
-                                        <i class="fas fa-copy" aria-hidden="true"></i> Copiar linha digitável
-                                    </button>
-                                </div>
-                                <div class="barcode-stage" aria-live="polite">
-                                    <div class="barcode-visual" id="barcodeDemo" aria-hidden="true"></div>
-                                    <img class="barcode-image" id="barcodeImage" alt="Código de barras do boleto" hidden>
-                                    <p class="barcode-caption" id="barcodeCaption">Prévia ilustrativa — código de barras real aparecerá após a integração da API.</p>
-                                </div>
-                            </section>
-                            <aside class="payment-card" aria-labelledby="nextStepsTitle">
-                                <h3 id="nextStepsTitle">Próximos passos</h3>
-                                <ol class="steps-list">
-                                    <li>Confira o nome do prestador, o serviço e o valor.</li>
-                                    <li>Gere o boleto nesta página quando a integração estiver ativa.</li>
-                                    <li>Pague pelo app ou internet banking e aguarde a confirmação do provedor.</li>
-                                </ol>
-                                <div class="security-note"><i class="fas fa-shield-halved" aria-hidden="true"></i><span>Antes de confirmar no banco, confira se beneficiário e valor coincidem com os dados desta tela.</span></div>
-                                <div class="payment-note">A abertura do MEI diretamente pelos canais oficiais do Governo Federal é gratuita. Este valor é apenas o preço demonstrativo de um serviço privado opcional. <a href="https://www.gov.br/pt-br/servicos/realizar-registro-como-microempreendedor-individual-mei" target="_blank" rel="noopener noreferrer">Consulte o serviço oficial gratuito no gov.br</a>.</div>
-                            </aside>
-                        </div>
-                        <div id="apiNotice" class="payment-note" role="status" aria-live="polite" style="display:none"></div>
-                        <div class="payment-actions">
-                            <button type="button" class="btn btn-primary" id="generateBoletoBtn" onclick="handleGenerateBoleto()"><i class="fas fa-barcode" aria-hidden="true"></i> Gerar boleto</button>
-                        </div>
-                        </div>
+                <!-- Tela completa de checkout, fora do formulário e da barra lateral. -->
+        <section class="step-content payment-screen" id="step4" aria-labelledby="paymentTitle">
+            <header class="payment-screen-header">
+                <div class="payment-screen-header-inner">
+                    <div class="payment-brand">
+                        <span class="payment-brand-icon"><i class="fas fa-briefcase" aria-hidden="true"></i></span>
+                        <span>Assessoria MEI<small>Serviço privado</small></span>
                     </div>
-                </section>
+                    <div class="payment-header-meta">
+                        <span class="payment-step-badge"><i class="fas fa-barcode" aria-hidden="true"></i> Boleto bancário</span>
+                        <button class="payment-header-back" type="button" onclick="goToStep(3)"><i class="fas fa-arrow-left" aria-hidden="true"></i> Voltar à revisão</button>
+                    </div>
+                </div>
+            </header>
+            <div class="payment-screen-body">
+                <div class="payment-page-title">
+                    <div><h1 id="paymentTitle">Finalize com boleto</h1><p>Revise o valor e copie a linha digitável para pagar no seu banco.</p></div>
+                    <div class="payment-secure-label"><i class="fas fa-clock" aria-hidden="true"></i> Emissão disponível após conectar a API</div>
+                </div>
+                <div class="payment-panel">
+                    <div class="payment-status" id="paymentStatus" role="status" aria-live="polite">
+                        <i class="fas fa-circle-info" aria-hidden="true"></i>
+                        <span>Demonstração: nenhum boleto real foi emitido. O botão “Já paguei” abre um link de exemplo e não verifica nem confirma pagamentos.</span>
+                    </div>
+                    <div class="payment-grid">
+                        <section class="payment-card payment-order-card" aria-labelledby="boletoCardTitle">
+                            <h2 id="boletoCardTitle">Resumo do pedido</h2>
+                            <p class="payment-card-intro">Serviço privado e opcional de assessoria.</p>
+                            <div class="payment-total">
+                                <div><span class="payment-total-label">Serviço</span><strong class="payment-service-name">Assessoria MEI</strong></div>
+                                <strong class="payment-amount" id="paymentAmount">R$ 59,90</strong>
+                            </div>
+                            <div class="payment-method"><i class="fas fa-barcode" aria-hidden="true"></i><span>Boleto bancário</span></div>
+                            <label class="code-label" for="digitableLine">Linha digitável</label>
+                            <div class="code-row">
+                                <input class="code-input" id="digitableLine" type="text" readonly placeholder="A linha digitável aparecerá aqui após a emissão" aria-describedby="paymentHelp">
+                                <button class="copy-btn" id="copyBoletoBtn" type="button" onclick="copyDigitableLine()" disabled aria-disabled="true">
+                                    <i class="fas fa-copy" aria-hidden="true"></i> Copiar linha digitável
+                                </button>
+                            </div>
+                            <p class="copy-feedback" id="copyFeedback" role="status" aria-live="polite"></p>
+                            <p class="payment-help" id="paymentHelp">A linha digitável será exibida aqui após a emissão. Copie-a e cole no app do seu banco.</p>
+                        </section>
+                        <aside class="payment-card" aria-labelledby="nextStepsTitle">
+                            <h3 id="nextStepsTitle">Como concluir o pagamento</h3>
+                            <ol class="steps-list">
+                                <li>Quando o boleto for emitido, clique em <strong>Copiar linha digitável</strong>.</li>
+                                <li>Cole o código no app ou internet banking e confira o valor.</li>
+                                <li>Conclua o pagamento no banco. Depois, clique em <strong>Já paguei</strong> para abrir a página de retorno.</li>
+                            </ol>
+                            <div class="security-note"><i class="fas fa-shield-halved" aria-hidden="true"></i><span>Confirme o valor e as informações apresentadas pelo seu banco antes de concluir o pagamento.</span></div>
+                        </aside>
+                    </div>
+                    <div class="payment-note payment-disclosure">A abertura do MEI diretamente pelos canais oficiais do Governo Federal é gratuita. O valor acima é apenas o preço demonstrativo de um serviço privado opcional. <a href="https://www.gov.br/pt-br/servicos/realizar-registro-como-microempreendedor-individual-mei" target="_blank" rel="noopener noreferrer">Consulte o serviço oficial gratuito no gov.br</a>.</div>
+                    <div id="apiNotice" class="payment-note" role="status" aria-live="polite" style="display:none"></div>
+                    <div class="payment-actions">
+                        <button type="button" class="btn btn-secondary payment-return-btn" id="paymentReturnBtn" onclick="redirectAfterPayment()" disabled aria-disabled="true"><i class="fas fa-check-circle" aria-hidden="true"></i> Já paguei</button>
+                    </div>
+                    <p class="payment-return-help">Este link de demonstração não confirma nem verifica o pagamento.</p>
+                </div>
+            </div>
+        </section>
 
         <!-- Sidebar -->
         <aside class="sidebar">
@@ -2375,9 +2362,7 @@
         // Integração futura: implemente a rota no BACKEND e valide pedido/valor no servidor.
         // Nunca exponha chaves ou segredos do provedor no JavaScript do navegador.
         async function createBoleto() {
-            // Contrato esperado: { id, amountCents, beneficiary, dueDate,
-            //   digitableLine, barcodeImageUrl }.
-            // A imagem do código de barras deve ser gerada/servida pelo backend.
+            // Contrato esperado: { amountCents, digitableLine }.
             // Exemplo:
             // const response = await fetch('/api/payments/boleto', {
             //   method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -2395,36 +2380,12 @@
             if (boleto.amountCents !== undefined && Number(boleto.amountCents) !== 5990) {
                 throw new Error('O valor retornado pela API não corresponde ao pedido.');
             }
-            let safeBarcodeImageUrl = null;
-            if (boleto.barcodeImageUrl) {
-                safeBarcodeImageUrl = new URL(boleto.barcodeImageUrl, window.location.origin);
-                if (safeBarcodeImageUrl.origin !== window.location.origin) {
-                    throw new Error('A imagem do código deve ser servida pelo domínio seguro do serviço.');
-                }
-            }
             document.getElementById('digitableLine').value = boleto.digitableLine;
             const copyButton = document.getElementById('copyBoletoBtn');
             copyButton.disabled = false;
             copyButton.removeAttribute('aria-disabled');
-            document.getElementById('boletoReference').textContent = boleto.id || 'Confirmado pelo provedor';
-            if (boleto.beneficiary) document.getElementById('paymentBeneficiary').textContent = boleto.beneficiary;
-            if (boleto.dueDate) {
-                const date = new Date(boleto.dueDate + 'T00:00:00');
-                document.getElementById('boletoDueDate').textContent = Number.isNaN(date.getTime()) ? boleto.dueDate : date.toLocaleDateString('pt-BR');
-            }
-            const image = document.getElementById('barcodeImage');
-            const demoBars = document.getElementById('barcodeDemo');
-            const caption = document.getElementById('barcodeCaption');
-            if (safeBarcodeImageUrl) {
-                image.src = safeBarcodeImageUrl.href;
-                image.hidden = false;
-                demoBars.hidden = true;
-                caption.textContent = 'Código de barras emitido pelo provedor de pagamento.';
-            } else {
-                caption.textContent = 'Linha digitável emitida; a imagem do código de barras não foi fornecida pela API.';
-            }
             const status = document.getElementById('paymentStatus');
-            status.innerHTML = '<i class="fas fa-circle-check" aria-hidden="true"></i><span>Boleto emitido. Confira beneficiário, valor e vencimento antes de pagar.</span>';
+            status.innerHTML = '<i class="fas fa-circle-check" aria-hidden="true"></i><span>Boleto emitido. Copie a linha digitável e confira os dados no app do seu banco antes de pagar.</span>';
             status.style.background = 'var(--success-light)';
             status.style.borderColor = 'var(--success-color)';
             status.style.color = 'var(--success-color)';
@@ -2432,8 +2393,11 @@
 
         async function copyDigitableLine() {
             const input = document.getElementById('digitableLine');
-            const notice = document.getElementById('apiNotice');
-            if (!input.value || input.value === 'Disponível após gerar o boleto') return;
+            const notice = document.getElementById('copyFeedback');
+            if (!input.value.trim()) {
+                notice.textContent = 'A linha digitável ficará disponível após a emissão do boleto.';
+                return;
+            }
             try {
                 await navigator.clipboard.writeText(input.value);
             } catch (error) {
@@ -2445,26 +2409,17 @@
                     return;
                 }
             }
-            notice.textContent = 'Linha digitável copiada.';
+            notice.textContent = 'Linha digitável copiada. Cole-a no app do seu banco para concluir o pagamento.';
             notice.style.display = 'block';
+            const returnButton = document.getElementById('paymentReturnBtn');
+            returnButton.disabled = false;
+            returnButton.removeAttribute('aria-disabled');
         }
 
-        async function handleGenerateBoleto() {
-            const notice = document.getElementById('apiNotice');
-            const button = document.getElementById('generateBoletoBtn');
-            button.disabled = true;
-            button.classList.add('btn-loading');
-            notice.style.display = 'none';
-            try {
-                const boleto = await createBoleto();
-                renderBoleto(boleto);
-            } catch (error) {
-                notice.textContent = error.message + ' Nenhum pagamento foi iniciado.';
-                notice.style.display = 'block';
-            } finally {
-                button.disabled = false;
-                button.classList.remove('btn-loading');
-            }
+        function redirectAfterPayment() {
+            // URL demonstrativa. Troque pelo endereço do seu fluxo real de confirmação.
+            // O redirecionamento não comprova pagamento; valide o status via API/webhook no servidor.
+            window.location.assign('https://example.com/');
         }
 
         async function handleConfirmationSubmit(e) {
