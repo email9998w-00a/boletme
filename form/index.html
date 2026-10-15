@@ -1827,6 +1827,16 @@
                 cpfInput.addEventListener('input', debounce(handleCPFInput, DEBOUNCE_DELAY));
             }
 
+            // E-mail válido: sinaliza sucesso e fecha o teclado virtual.
+            const emailInput = document.getElementById('email');
+            if (emailInput) {
+                emailInput.addEventListener('input', () => {
+                    if (validateField(emailInput)) {
+                        emailInput.blur();
+                    }
+                });
+            }
+
             // CEP lookup
             const zipCodeInput = document.getElementById('zipCode');
             if (zipCodeInput) {
