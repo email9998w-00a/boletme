@@ -367,6 +367,13 @@
             }
         }
 
+
+        /* Cidade e UF permanecem lado a lado também em telas estreitas. */
+        .form-row.location-row {
+            grid-template-columns: minmax(0, 2fr) minmax(84px, 1fr);
+            gap: 12px;
+        }
+
         .form-label {
             display: block;
             font-size: 14px;
@@ -1454,7 +1461,7 @@
                                             <div class="error-message" id="neighborhoodError">Digite o bairro</div>
                                         </div>
 
-                                        <div class="form-row">
+                                        <div class="form-row location-row">
                                             <div class="form-group">
                                                 <label class="form-label required" for="city">Cidade</label>
                                                 <input type="text" id="city" name="city" class="form-input" required readonly>
