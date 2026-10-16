@@ -329,6 +329,17 @@
             padding: 32px;
         }
 
+        .autosave-note {
+            margin-top: 10px;
+            color: var(--gray-500);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .autosave-note i { color: var(--success-color); }
+
+
         .step-content {
             display: none;
         }
@@ -1320,6 +1331,7 @@
                     <div class="form-header">
                         <h1 class="form-title">Dados Pessoais</h1>
                         <p class="form-subtitle">Informe seus dados pessoais para iniciar o processo de abertura do MEI</p>
+                        <p class="autosave-note" role="status"><i class="fas fa-floppy-disk" aria-hidden="true"></i> Seu progresso é salvo automaticamente neste navegador.</p>
                     </div>
                     
                     <div class="form-content">
@@ -1766,6 +1778,9 @@
         let currentStep = 1;
         let addressFilled = false;
         let isProcessing = false;
+        let hasStoredProgress = false;
+        let restoringProgress = false;
+        const PROGRESS_STORAGE_KEY = 'mei_assessoria_progress_v1';
         window.meiData = {};
 
         // ===== CONFIGURAÇÕES =====
@@ -1797,6 +1812,10 @@
             setupEventListeners();
             updateProgress();
             setupMasks();
+            restoreProgress();
+            document.addEventListener('input', () => setTimeout(saveProgress, 0));
+            document.addEventListener('change', saveProgress);
+            window.addEventListener('beforeunload', handleBeforeUnload);
         });
 
         // ===== EVENT LISTENERS =====
@@ -2014,12 +2033,88 @@
             }
         }
 
+        // ===== SALVAMENTO LOCAL DO PROGRESSO =====
+        function saveProgress() {
+            if (restoringProgress) return;
+            try {
+                const fields = {};
+                const valuesByName = {};
+                document.querySelectorAll('input[id], select[id], textarea[id]').forEach(field => {
+                    fields[field.id] = (field.type === 'checkbox' || field.type === 'radio') ? field.checked : field.value;
+                    if (field.name) {
+                        valuesByName[field.name] = (field.type === 'checkbox' || field.type === 'radio') ? field.checked : field.value;
+                    }
+                });
+                const saved = {
+                    version: 1,
+                    currentStep,
+                    addressFilled,
+                    fields,
+                    meiData: { ...window.meiData, ...valuesByName },
+                    savedAt: new Date().toISOString()
+                };
+                localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(saved));
+                hasStoredProgress = true;
+            } catch (error) {
+                console.warn('Não foi possível salvar o progresso neste navegador.', error);
+            }
+        }
+
+        function restoreProgress() {
+            let saved;
+            try {
+                const raw = localStorage.getItem(PROGRESS_STORAGE_KEY);
+                if (!raw) return;
+                saved = JSON.parse(raw);
+                if (!saved || saved.version !== 1 || !saved.fields) return;
+            } catch (error) {
+                console.warn('Não foi possível restaurar o progresso salvo.', error);
+                return;
+            }
+
+            restoringProgress = true;
+            document.querySelectorAll('input[id], select[id], textarea[id]').forEach(field => {
+                if (!Object.prototype.hasOwnProperty.call(saved.fields, field.id)) return;
+                const value = saved.fields[field.id];
+                if (field.type === 'checkbox' || field.type === 'radio') field.checked = Boolean(value);
+                else field.value = value == null ? '' : String(value);
+            });
+            window.meiData = { ...(saved.meiData || {}) };
+            document.querySelectorAll('input[name], select[name], textarea[name]').forEach(field => {
+                if (field.type === 'checkbox' || field.type === 'radio') return;
+                window.meiData[field.name] = field.value;
+            });
+            const requestedStep = Number(saved.currentStep);
+            currentStep = Number.isInteger(requestedStep) && requestedStep >= 1 && requestedStep <= 4 ? requestedStep : 1;
+            const address = document.getElementById('address')?.value;
+            const neighborhood = document.getElementById('neighborhood')?.value;
+            const city = document.getElementById('city')?.value;
+            const state = document.getElementById('state')?.value;
+            addressFilled = Boolean(saved.addressFilled || (address && neighborhood && city && state));
+            if (validateCPF(document.getElementById('cpf')?.value || '')) {
+                document.getElementById('conditionalFields')?.classList.add('show');
+            }
+            if (addressFilled) document.getElementById('addressFields')?.classList.add('show');
+            updateStepDisplay();
+            updateProgress();
+            restoringProgress = false;
+            hasStoredProgress = true;
+        }
+
+        function handleBeforeUnload(event) {
+            if (!hasStoredProgress) return;
+            saveProgress();
+            event.preventDefault();
+            event.returnValue = '';
+        }
+
         // ===== NAVEGAÇÃO =====
         function goToStep(step) {
             if (step < currentStep || validateCurrentStep()) {
                 currentStep = step;
                 updateStepDisplay();
                 updateProgress();
+                saveProgress();
                 
                 if (currentStep === 3) {
                     updateReviewData();
