@@ -374,6 +374,14 @@
             gap: 12px;
         }
 
+
+        .location-row #state {
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: none;
+            padding-right: 12px;
+        }
+
         .form-label {
             display: block;
             font-size: 14px;
@@ -1315,7 +1323,7 @@
                     </div>
                     
                     <div class="form-content">
-                        <form id="personalDataForm">
+                        <form id="personalDataForm" novalidate>
                             <!-- Campos Iniciais -->
                             <div class="initial-fields">
                                 <div class="form-group">
@@ -1814,7 +1822,7 @@
 
             // Validação de campos
             document.querySelectorAll('.form-input').forEach(input => {
-                input.addEventListener('blur', () => validateField(input));
+                input.addEventListener('blur', () => { if (input.id !== 'email') validateField(input); });
                 input.addEventListener('input', () => {
                     input.classList.remove('error');
                     const errorEl = document.getElementById(input.name + 'Error');
@@ -1832,8 +1840,13 @@
             const emailInput = document.getElementById('email');
             if (emailInput) {
                 emailInput.addEventListener('input', () => {
-                    if (validateField(emailInput)) {
+                    const errorEl = document.getElementById('emailError');
+                    if (validateEmail(emailInput.value.trim())) {
+                        validateField(emailInput);
                         emailInput.blur();
+                    } else {
+                        emailInput.classList.remove('error', 'success');
+                        if (errorEl) errorEl.classList.remove('show');
                     }
                 });
             }
